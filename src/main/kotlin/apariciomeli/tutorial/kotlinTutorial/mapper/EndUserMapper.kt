@@ -26,7 +26,7 @@ class EndUserMapper: Mapper<EndUserDTO, EndUser> {
             domain.password,
             domain.email,
             java.util.Calendar.getInstance(),
-            listOf()
+            mutableListOf()
         )
     }
 }

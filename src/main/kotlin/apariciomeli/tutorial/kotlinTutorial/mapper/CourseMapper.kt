@@ -18,7 +18,7 @@ class CourseMapper: Mapper<CourseDTO, Course> {
         return Course(
             domain.id,
             domain.name,
-            listOf()
+            mutableListOf()
         )
     }
 }

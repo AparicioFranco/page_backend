@@ -24,8 +24,6 @@ class EndUserServiceImpl(
     }
 
     override fun findUserById(userId: Int): EndUser {
-        val user = endUserRepository.findById(userId).get()
-        println("Testing" + user.courses)
         return endUserRepository.findById(userId).get()
     }
 
@@ -33,11 +31,11 @@ class EndUserServiceImpl(
         val user = endUserRepository.findById(userId).get()
         val course = courseRepository.findById(courseId).get()
 
-        user.courses.plus(course)
-        return endUserRepository.save(user)
+        user.courses.add(course)
+//        return endUserRepository.save(user)
 //        course.users.add(user)
 //        courseRepository.save(course)
-//        return endUserRepository.save(finalUser)
+        return endUserRepository.save(user)
     }
 
     override fun getCoursesByUserId(userId: Int): List<Course> {

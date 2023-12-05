@@ -1,5 +1,6 @@
 package apariciomeli.tutorial.kotlinTutorial.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import jakarta.persistence.*
 
@@ -10,7 +11,8 @@ data class Course (
     val id:Int,
     val name: String,
     @ManyToMany(mappedBy = "courses")
-    val users: List<EndUser> = listOf()
+    @JsonIgnore
+    val users: MutableList<EndUser> = mutableListOf()
 ){
 
 }

@@ -20,7 +20,8 @@ data class EndUser (
         joinColumns = [JoinColumn(name="user_id")],
         inverseJoinColumns = [JoinColumn(name="course_id")]
     )
-    val courses: List<Course> = listOf(),
+
+    val courses: MutableList<Course> = mutableListOf()
 ){
 
 }
