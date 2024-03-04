@@ -1,6 +1,8 @@
 package apariciomeli.tutorial.kotlinTutorial.controller
 
+import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserCheckedDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserDTO
+import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserLogInDTO
 import apariciomeli.tutorial.kotlinTutorial.model.Course
 import apariciomeli.tutorial.kotlinTutorial.model.EndUser
 import apariciomeli.tutorial.kotlinTutorial.service.course.EndUserService
@@ -36,6 +38,11 @@ class EndUserController(
     @GetMapping("/course/{userId}")
     fun getCoursesByUser(@PathVariable userId: Int): List<Course>{
         return endUserService.getCoursesByUserId(userId)
+    }
+
+    @PostMapping("/logIn")
+    fun checkUserInformation(@RequestBody userDTO: EndUserLogInDTO ): EndUserCheckedDTO {
+        return endUserService.checkUser(userDTO)
     }
 
 }

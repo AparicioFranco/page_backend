@@ -16,9 +16,14 @@ class ModuleController(
         return moduleService.createModule(moduleDTO)
     }
 
-    @GetMapping("/{courseId}")
+    @GetMapping("/course/{courseId}")
     fun getModulesByCourseId(@PathVariable courseId: Int): List<Module> {
         return moduleService.getModulesByCourseId(courseId)
+    }
+
+    @GetMapping("/{moduleId}")
+    fun getModulesContentByModuleId(@PathVariable moduleId: Int): Module {
+        return moduleService.getModulesContentByModuleId(moduleId)
     }
 
 

@@ -12,21 +12,23 @@ import java.util.Date
 class EndUserMapper: Mapper<EndUserDTO, EndUser> {
     override fun fromEntity(entity: EndUser): EndUserDTO {
         return EndUserDTO(
-            entity.id,
-            entity.name,
-            entity.email,
-            entity.password
+            id = entity.id,
+            name=  entity.name,
+            email = entity.email,
+            role = entity.role,
+            password = entity.password,
         )
     }
 
     override fun toEntity(domain: EndUserDTO): EndUser {
         return EndUser(
-            domain.id,
-            domain.name,
-            domain.password,
-            domain.email,
-            java.util.Calendar.getInstance(),
-            mutableListOf()
+            id = domain.id,
+            name = domain.name,
+            password = domain.password,
+            email = domain.email,
+            role = domain.role,
+            joinDate = java.util.Calendar.getInstance(),
+            courses = mutableListOf()
         )
     }
 }

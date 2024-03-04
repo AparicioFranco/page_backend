@@ -30,4 +30,8 @@ class ModuleServiceImpl(
             throw (Exception("Not found"))
         }
     }
+
+    override fun getModulesContentByModuleId(moduleId: Int): Module {
+        return moduleRepository.findById(moduleId).get()
+    }
 }

@@ -7,4 +7,5 @@ import apariciomeli.tutorial.kotlinTutorial.model.Module
 interface ModuleService {
     fun createModule(moduleDTO: ModuleDTO): Module
     fun getModulesByCourseId(courseId: Int): List<Module>
+    fun getModulesContentByModuleId(moduleId: Int): Module
 }

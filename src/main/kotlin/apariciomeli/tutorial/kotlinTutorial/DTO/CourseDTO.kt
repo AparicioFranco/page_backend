@@ -2,6 +2,7 @@ package apariciomeli.tutorial.kotlinTutorial.DTO
 
 class CourseDTO (
     var id: Int,
-    var name: String
+    var name: String,
+    var description: String
 )
 

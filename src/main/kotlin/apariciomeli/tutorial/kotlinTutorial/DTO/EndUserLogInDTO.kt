@@ -2,11 +2,8 @@ package apariciomeli.tutorial.kotlinTutorial.DTO
 
 import java.util.Date
 
-class EndUserDTO (
-    var id: Int,
-    var name: String,
+class EndUserLogInDTO (
     var email: String,
-    var role: String,
     var password: String
 )
 

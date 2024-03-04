@@ -1,6 +1,8 @@
 package apariciomeli.tutorial.kotlinTutorial.service.course
 
+import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserCheckedDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserDTO
+import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserLogInDTO
 import apariciomeli.tutorial.kotlinTutorial.mapper.EndUserMapper
 import apariciomeli.tutorial.kotlinTutorial.model.Course
 import apariciomeli.tutorial.kotlinTutorial.model.EndUser
@@ -45,4 +47,12 @@ class EndUserServiceImpl(
         return user.courses.toList()
     }
 
+    override fun checkUser(user: EndUserLogInDTO): EndUserCheckedDTO {
+        val checkUser = endUserRepository.findEndUserByEmail(user.email)
+        if (checkUser.password == user.password){
+            return EndUserCheckedDTO(id = checkUser.id, name = checkUser.name, email = checkUser.email, role = checkUser.role);
+        }else{
+            throw Exception("Username not found")
+        }
+    }
 }

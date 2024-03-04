@@ -9,16 +9,18 @@ import apariciomeli.tutorial.kotlinTutorial.model.Module
 class CourseMapper: Mapper<CourseDTO, Course> {
     override fun fromEntity(entity: Course): CourseDTO {
         return CourseDTO(
-            entity.id,
-            entity.name
+            id = entity.id,
+            name = entity.name,
+            description = entity.description
         )
     }
 
     override fun toEntity(domain: CourseDTO): Course {
         return Course(
-            domain.id,
-            domain.name,
-            mutableListOf()
+            id = domain.id,
+            name = domain.name,
+            description = domain.description,
+            users = mutableListOf()
         )
     }
 }
