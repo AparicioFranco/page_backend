@@ -5,14 +5,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import jakarta.persistence.*
 
 @Entity
-data class Module (
+data class ModuleData (
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     val id:Int,
-    val name: String,
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
-    val course: Course,
+    val module: Module,
+    val title: String,
+    val text: String,
+    val video: String,
+    val audio: String,
 ){
 
 }

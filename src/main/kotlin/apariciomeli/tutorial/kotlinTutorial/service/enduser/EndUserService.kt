@@ -1,5 +1,6 @@
 package apariciomeli.tutorial.kotlinTutorial.service.course
 
+import apariciomeli.tutorial.kotlinTutorial.DTO.ChangePasswordDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserCheckedDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserLogInDTO
@@ -13,4 +14,6 @@ interface EndUserService {
     fun addUserToCourse(userId: Int, courseId: Int): EndUser
     fun getCoursesByUserId(userId: Int): List<Course>
     fun checkUser(user: EndUserLogInDTO) : EndUserCheckedDTO
+
+    fun changePassword(passwordDTO: ChangePasswordDTO): EndUser
 }

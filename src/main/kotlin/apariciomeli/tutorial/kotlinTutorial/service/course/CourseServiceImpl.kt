@@ -19,7 +19,6 @@ class CourseServiceImpl(
     }
 
     override fun findCourseById(courseId: Int): Course {
-        println("course" + courseRepository.findById(courseId).get().users.size)
         return courseRepository.findById(courseId).orElseThrow()
     }
 

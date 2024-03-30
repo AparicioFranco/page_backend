@@ -18,7 +18,7 @@ class ModuleController(
 
     @GetMapping("/course/{courseId}")
     fun getModulesByCourseId(@PathVariable courseId: Int): List<Module> {
-        return moduleService.getModulesByCourseId(courseId)
+        return moduleService.getModulesByCourseId(courseId).sortedBy { it.id }
     }
 
     @GetMapping("/{moduleId}")

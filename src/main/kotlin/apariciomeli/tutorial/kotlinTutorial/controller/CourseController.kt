@@ -21,7 +21,7 @@ class CourseController(
 
     @GetMapping()
     fun getCourses(): List<Course> {
-        return courseService.findAllCourses()
+        return courseService.findAllCourses().sortedBy { it.id }
     }
 
     @GetMapping("/{courseId}")

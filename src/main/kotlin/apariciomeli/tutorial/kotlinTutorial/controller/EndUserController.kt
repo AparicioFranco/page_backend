@@ -1,5 +1,6 @@
 package apariciomeli.tutorial.kotlinTutorial.controller
 
+import apariciomeli.tutorial.kotlinTutorial.DTO.ChangePasswordDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserCheckedDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserLogInDTO
@@ -16,7 +17,7 @@ class EndUserController(
 ) {
 
     @PostMapping()
-    fun createCourse(@RequestBody endUserDTO: EndUserDTO): EndUser {
+    fun createUser(@RequestBody endUserDTO: EndUserDTO): EndUser {
         return endUserService.createUser(endUserDTO)
     }
 
@@ -45,4 +46,8 @@ class EndUserController(
         return endUserService.checkUser(userDTO)
     }
 
+    @PutMapping("/password")
+    fun changePassword(@RequestBody passwordDTO: ChangePasswordDTO): EndUser{
+        return endUserService.changePassword(passwordDTO)
+    }
 }

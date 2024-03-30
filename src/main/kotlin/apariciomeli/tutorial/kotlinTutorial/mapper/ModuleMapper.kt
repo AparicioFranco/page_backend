@@ -13,11 +13,9 @@ class ModuleMapper(
 
     override fun fromEntity(entity: Module): ModuleDTO {
         return ModuleDTO(
-            entity.id,
-            entity.course.id,
-            entity.name,
-            entity.video,
-            entity.text
+            id = entity.id,
+            courseId = entity.course.id,
+            name = entity.name,
         )
     }
 
@@ -26,8 +24,6 @@ class ModuleMapper(
             domain.id,
             domain.name,
             courseServiceImpl.findCourseById(domain.courseId),
-            domain.video,
-            domain.text
         )
     }
 }

@@ -1,5 +1,6 @@
 package apariciomeli.tutorial.kotlinTutorial.service.course
 
+import apariciomeli.tutorial.kotlinTutorial.DTO.ChangePasswordDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserCheckedDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserLogInDTO
@@ -42,9 +43,7 @@ class EndUserServiceImpl(
 
     override fun getCoursesByUserId(userId: Int): List<Course> {
         val user = endUserRepository.findById(userId).get()
-        println("Courses:")
-        println(user.courses)
-        return user.courses.toList()
+        return user.courses
     }
 
     override fun checkUser(user: EndUserLogInDTO): EndUserCheckedDTO {
@@ -54,5 +53,14 @@ class EndUserServiceImpl(
         }else{
             throw Exception("Username not found")
         }
+    }
+
+    override fun changePassword(passwordDTO: ChangePasswordDTO): EndUser {
+        val user = endUserRepository.findById(passwordDTO.userId).get()
+        if (user.password == passwordDTO.oldPassword){
+            val finalUser = user.copy(password = passwordDTO.newPassword)
+            return endUserRepository.save(finalUser)
+        }
+        throw Exception("Passwords don't match")
     }
 }
