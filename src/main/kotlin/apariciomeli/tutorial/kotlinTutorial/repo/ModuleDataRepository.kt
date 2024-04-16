@@ -1,6 +1,5 @@
 package apariciomeli.tutorial.kotlinTutorial.repo
 
-import apariciomeli.tutorial.kotlinTutorial.model.Course
 import apariciomeli.tutorial.kotlinTutorial.model.ModuleData
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.repository.CrudRepository

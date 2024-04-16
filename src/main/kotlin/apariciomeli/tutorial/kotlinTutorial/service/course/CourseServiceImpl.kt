@@ -5,6 +5,7 @@ import apariciomeli.tutorial.kotlinTutorial.mapper.CourseMapper
 import apariciomeli.tutorial.kotlinTutorial.model.Course
 import apariciomeli.tutorial.kotlinTutorial.model.EndUser
 import apariciomeli.tutorial.kotlinTutorial.repo.CourseRepository
+import apariciomeli.tutorial.kotlinTutorial.service.comment.CommentService
 import org.springframework.stereotype.Service
 
 @Service
@@ -15,7 +16,7 @@ class CourseServiceImpl(
 
     override fun createCourse(courseDTO: CourseDTO): Course {
         val course = courseMapper.toEntity(courseDTO)
-        return courseRepository.save(course);
+        return courseRepository.save(course)
     }
 
     override fun findCourseById(courseId: Int): Course {

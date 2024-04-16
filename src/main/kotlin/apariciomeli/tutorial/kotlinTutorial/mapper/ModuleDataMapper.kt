@@ -1,11 +1,7 @@
 package apariciomeli.tutorial.kotlinTutorial.mapper
 
-import apariciomeli.tutorial.kotlinTutorial.DTO.ModuleDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.ModuleDataDTO
-import apariciomeli.tutorial.kotlinTutorial.model.Module
 import apariciomeli.tutorial.kotlinTutorial.model.ModuleData
-import apariciomeli.tutorial.kotlinTutorial.service.course.CourseServiceImpl
-import apariciomeli.tutorial.kotlinTutorial.service.course.EndUserServiceImpl
 import apariciomeli.tutorial.kotlinTutorial.service.module.ModuleServiceImpl
 import org.springframework.stereotype.Service
 

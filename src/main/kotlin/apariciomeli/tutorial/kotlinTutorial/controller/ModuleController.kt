@@ -1,6 +1,7 @@
 package apariciomeli.tutorial.kotlinTutorial.controller
 
 import apariciomeli.tutorial.kotlinTutorial.DTO.ModuleDTO
+import apariciomeli.tutorial.kotlinTutorial.DTO.ModuleUsersReadDTO
 import apariciomeli.tutorial.kotlinTutorial.model.Module
 import apariciomeli.tutorial.kotlinTutorial.service.module.ModuleService
 import org.springframework.web.bind.annotation.*
@@ -21,9 +22,19 @@ class ModuleController(
         return moduleService.getModulesByCourseId(courseId).sortedBy { it.id }
     }
 
+    @GetMapping("/course/available/{courseId}")
+    fun getAvailableModulesByCourseId(@PathVariable courseId: Int): List<Module> {
+        return moduleService.getModulesByAvailabilityAndCourseId(courseId).sortedBy { it.id }
+    }
+
     @GetMapping("/{moduleId}")
     fun getModulesContentByModuleId(@PathVariable moduleId: Int): Module {
         return moduleService.getModulesContentByModuleId(moduleId)
+    }
+
+    @GetMapping("/user")
+    fun getUsersReadModule(): List<ModuleUsersReadDTO> {
+        return moduleService.getUsersReadModule()
     }
 
 

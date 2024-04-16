@@ -7,4 +7,5 @@ import org.springframework.data.repository.CrudRepository
 
 interface ModuleRepository: CrudRepository<Module, Int>, JpaRepository<Module, Int> {
     fun findAllByCourse(course:Course): List<Module>
+    fun findAllByCourseAndLocked(course: Course, locked: Boolean): List<Module>
 }

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
 import java.util.Calendar
-import java.util.Date
 
 @Entity
 data class EndUser (
@@ -23,7 +22,15 @@ data class EndUser (
         inverseJoinColumns = [JoinColumn(name="course_id")]
     )
     @JsonManagedReference
-    val courses: MutableList<Course> = mutableListOf()
+    val courses: MutableList<Course> = mutableListOf(),
+    @ManyToMany()
+    @JoinTable(
+    name = "user_read_module",
+    joinColumns = [JoinColumn(name="user_id")],
+    inverseJoinColumns = [JoinColumn(name="module_id")]
+    )
+    @JsonManagedReference
+    val modules: MutableList<Module> = mutableListOf()
 ){
 
 }

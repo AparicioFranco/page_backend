@@ -1,11 +1,11 @@
 package apariciomeli.tutorial.kotlinTutorial
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 import org.springframework.boot.runApplication
 
-@SpringBootApplication
+@SpringBootApplication(exclude = [SecurityAutoConfiguration::class])
 class KotlinTutorialApplication
-
 fun main(args: Array<String>) {
 	runApplication<KotlinTutorialApplication>(*args)
 }

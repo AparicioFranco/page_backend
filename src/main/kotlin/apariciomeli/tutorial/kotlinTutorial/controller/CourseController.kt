@@ -4,7 +4,6 @@ import apariciomeli.tutorial.kotlinTutorial.DTO.CourseDTO
 import apariciomeli.tutorial.kotlinTutorial.model.Course
 import apariciomeli.tutorial.kotlinTutorial.model.EndUser
 import apariciomeli.tutorial.kotlinTutorial.service.course.CourseService
-import apariciomeli.tutorial.kotlinTutorial.service.course.EndUserService
 import org.springframework.web.bind.annotation.*
 
 @CrossOrigin("*")
@@ -16,6 +15,7 @@ class CourseController(
 
     @PostMapping()
     fun createCourse(@RequestBody courseDTO: CourseDTO): Course {
+        print("Test")
         return courseService.createCourse(courseDTO)
     }
 

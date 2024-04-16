@@ -11,6 +11,7 @@ data class Course (
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     val id:Int,
     val name: String,
+    @Column(columnDefinition = "varchar(1000)")
     val description: String,
     @ManyToMany(mappedBy = "courses")
     @JsonBackReference
