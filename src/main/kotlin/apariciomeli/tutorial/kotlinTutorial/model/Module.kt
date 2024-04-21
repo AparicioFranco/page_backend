@@ -2,6 +2,7 @@ package apariciomeli.tutorial.kotlinTutorial.model
 
 import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
+import org.springframework.lang.Nullable
 
 @Entity
 data class Module (

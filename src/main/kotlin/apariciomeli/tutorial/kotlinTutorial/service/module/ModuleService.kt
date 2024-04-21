@@ -18,5 +18,7 @@ interface ModuleService {
 
     fun getUsersReadModule(): List<ModuleUsersReadDTO>
 
+    fun changeLockStatus(moduleId: Int): Module
+
 //    fun getModulesDataByModuleId(moduleId:Int): List<ModuleData>
 }

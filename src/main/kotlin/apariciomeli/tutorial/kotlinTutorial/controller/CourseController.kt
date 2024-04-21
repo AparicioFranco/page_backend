@@ -1,6 +1,7 @@
 package apariciomeli.tutorial.kotlinTutorial.controller
 
 import apariciomeli.tutorial.kotlinTutorial.DTO.CourseDTO
+import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserAdminViewDTO
 import apariciomeli.tutorial.kotlinTutorial.model.Course
 import apariciomeli.tutorial.kotlinTutorial.model.EndUser
 import apariciomeli.tutorial.kotlinTutorial.service.course.CourseService
@@ -15,7 +16,6 @@ class CourseController(
 
     @PostMapping()
     fun createCourse(@RequestBody courseDTO: CourseDTO): Course {
-        print("Test")
         return courseService.createCourse(courseDTO)
     }
 
@@ -30,7 +30,7 @@ class CourseController(
     }
 
     @GetMapping("/user/{courseId}")
-    fun getUsersByCourseId(@PathVariable courseId: Int): List<EndUser> {
+    fun getUsersByCourseId(@PathVariable courseId: Int): List<EndUserAdminViewDTO> {
         return courseService.getUsersByCourseId(courseId)
     }
 }

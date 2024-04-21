@@ -25,7 +25,7 @@ class ModuleMapper(
         return Module(
             id = domain.id,
             name = domain.name,
-            locked = domain.locked,
+            locked = true,
             course = courseServiceImpl.findCourseById(domain.courseId),
             question = domain.question
         )

@@ -9,7 +9,7 @@ import apariciomeli.tutorial.kotlinTutorial.model.Module
 interface EndUserService {
     fun createUser(endUserDTO: EndUserDTO): EndUser
     fun findAllUsers(): List<EndUserAdminViewDTO>
-    fun findUserById(userId: Int): EndUser
+    fun findUserById(userId: Int): GetUserByIdDTO
     fun addUserToCourse(userId: Int, courseId: Int): EndUser
     fun getCoursesByUserId(userId: Int): List<Course>
     fun checkUser(user: EndUserLogInDTO) : EndUserCheckedDTO

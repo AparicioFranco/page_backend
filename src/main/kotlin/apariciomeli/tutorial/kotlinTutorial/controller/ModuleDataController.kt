@@ -26,11 +26,6 @@ class ModuleDataController(
         return moduleDataService.getModulesDataByCourseId(courseId)
     }
 
-    @GetMapping("/{moduleId}")
-    fun getModulesContentByModuleId(@PathVariable moduleId: Int): ModuleData {
-        return moduleDataService.getModulesDataContentByModuleDataId(moduleId)
-    }
-
     @PutMapping
     fun changeModuleData(@RequestBody moduleDataDTO: ModuleDataDTO): ModuleData {
         return moduleDataService.changeModuleData(moduleDataDTO)

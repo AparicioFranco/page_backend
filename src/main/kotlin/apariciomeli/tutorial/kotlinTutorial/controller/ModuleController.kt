@@ -37,5 +37,10 @@ class ModuleController(
         return moduleService.getUsersReadModule()
     }
 
+    @PutMapping("/changeLock/{moduleId}")
+    fun changeLockModule(@PathVariable moduleId: Int): Module {
+        return moduleService.changeLockStatus(moduleId)
+    }
+
 
 }

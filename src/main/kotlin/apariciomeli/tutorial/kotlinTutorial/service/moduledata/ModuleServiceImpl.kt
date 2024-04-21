@@ -35,7 +35,6 @@ class ModuleDataServiceImpl(
         val modulesDataReturn = mutableListOf<List<ModuleData>>()
         for (module in modules) {
             var moduleDataTemp = moduleDataRepository.findAllByModuleId(module.id)
-//            moduleDataTemp
             modulesDataReturn.add(moduleDataTemp)
         }
         return modulesDataReturn

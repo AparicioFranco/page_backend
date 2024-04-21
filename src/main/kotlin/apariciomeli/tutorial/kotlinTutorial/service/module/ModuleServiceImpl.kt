@@ -15,15 +15,11 @@ class ModuleServiceImpl(
     private val moduleRepository: ModuleRepository,
     private val moduleMapper: ModuleMapper,
     private val courseRepository: CourseRepository,
-    private val endUserAdminViewMapper: EndUserAdminViewMapper,
-//    private val moduleDataServiceImpl: ModuleDataServiceImpl
+    private val endUserAdminViewMapper: EndUserAdminViewMapper
 ): ModuleService {
 
     override fun createModule(moduleDTO: ModuleDTO): Module {
         val module = moduleMapper.toEntity(moduleDTO)
-//        val course = courseRepository.findById(moduleDTO.courseId).get()
-//        val addedModuleCourse = course.modules.add(module)
-//        courseRepository.save(course)
         return moduleRepository.save(module)
     }
 
@@ -64,7 +60,14 @@ class ModuleServiceImpl(
         return usersReadModulesList
     }
 
-//    override fun getModulesDataByModuleId(moduleId: Int): List<ModuleData> {
-//        return moduleDataServiceImpl.getModulesDataByModuleId(moduleId)
-//    }
+    override fun changeLockStatus(moduleId: Int): Module {
+        val moduleToChange = moduleRepository.findById(moduleId).get()
+        println("Test" + moduleToChange.id)
+        println("Test" + moduleToChange.name)
+        println("Test" + moduleToChange.id)
+        println("Test" + moduleToChange.locked)
+        val newModule = moduleToChange.copy(locked = !moduleToChange.locked)
+        moduleRepository.save(newModule)
+        return newModule
+    }
 }

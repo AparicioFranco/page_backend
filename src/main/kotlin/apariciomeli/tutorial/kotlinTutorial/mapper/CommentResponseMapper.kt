@@ -2,15 +2,14 @@ package apariciomeli.tutorial.kotlinTutorial.mapper
 
 import apariciomeli.tutorial.kotlinTutorial.DTO.*
 import apariciomeli.tutorial.kotlinTutorial.model.Comment
-import apariciomeli.tutorial.kotlinTutorial.service.course.EndUserService
-import apariciomeli.tutorial.kotlinTutorial.service.course.EndUserServiceImpl
-import apariciomeli.tutorial.kotlinTutorial.service.module.ModuleServiceImpl
+import apariciomeli.tutorial.kotlinTutorial.repo.EndUserRepository
+import apariciomeli.tutorial.kotlinTutorial.repo.ModuleRepository
 import org.springframework.stereotype.Service
 
 @Service
 class CommentResponseMapper(
-    private val endUserServiceImpl: EndUserServiceImpl,
-    private val moduleServiceImpl: ModuleServiceImpl
+    private val endUserRepository: EndUserRepository,
+    private val moduleRepository: ModuleRepository
 ): Mapper<CommentResponseDTO,Comment> {
     override fun fromEntity(entity: Comment): CommentResponseDTO {
         return CommentResponseDTO(
@@ -24,8 +23,8 @@ class CommentResponseMapper(
     override fun toEntity(domain: CommentResponseDTO): Comment {
         return Comment(
             id = domain.id,
-            user = endUserServiceImpl.findUserById(domain.user.id),
-            module = moduleServiceImpl.findModuleById(domain.module.id),
+            user = endUserRepository.findById(domain.user.id).get(),
+            module = moduleRepository.findById(domain.module.id).get(),
             commentData = domain.commentData
         )
     }

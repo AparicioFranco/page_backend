@@ -3,6 +3,7 @@ package apariciomeli.tutorial.kotlinTutorial.controller
 import apariciomeli.tutorial.kotlinTutorial.DTO.CommentDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.CommentResponseDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.CourseDTO
+import apariciomeli.tutorial.kotlinTutorial.DTO.GetCommentDTO
 import apariciomeli.tutorial.kotlinTutorial.model.Comment
 import apariciomeli.tutorial.kotlinTutorial.model.Course
 import apariciomeli.tutorial.kotlinTutorial.service.comment.CommentService
@@ -21,17 +22,17 @@ class CommentController(
     }
 
     @GetMapping("/user/{courseId}")
-    fun getCommentsByUserId(@PathVariable courseId: Int): List<Comment> {
+    fun getCommentsByUserId(@PathVariable courseId: Int): List<GetCommentDTO> {
         return commentService.getCommentsByUserId(courseId)
     }
 
     @GetMapping("/module/{moduleId}")
-    fun getCommentsByModuleId(@PathVariable moduleId: Int): List<Comment> {
+    fun getCommentsByModuleId(@PathVariable moduleId: Int): List<GetCommentDTO> {
         return commentService.getCommentsByModuleId(moduleId)
     }
 
     @GetMapping("/user/{userId}/{moduleId}")
-    fun getCommentsByUserIdAndModuleId(@PathVariable userId: Int, @PathVariable moduleId: Int): Comment {
+    fun getCommentByUserIdAndModuleId(@PathVariable userId: Int, @PathVariable moduleId: Int): GetCommentDTO {
         return commentService.getCommentByUserIdAndModuleId(userId,moduleId)
     }
 

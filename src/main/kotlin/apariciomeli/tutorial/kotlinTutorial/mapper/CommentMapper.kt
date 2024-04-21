@@ -2,6 +2,8 @@ package apariciomeli.tutorial.kotlinTutorial.mapper
 
 import apariciomeli.tutorial.kotlinTutorial.DTO.CommentDTO
 import apariciomeli.tutorial.kotlinTutorial.model.Comment
+import apariciomeli.tutorial.kotlinTutorial.repo.EndUserRepository
+import apariciomeli.tutorial.kotlinTutorial.repo.ModuleRepository
 import apariciomeli.tutorial.kotlinTutorial.service.course.EndUserService
 import apariciomeli.tutorial.kotlinTutorial.service.course.EndUserServiceImpl
 import apariciomeli.tutorial.kotlinTutorial.service.module.ModuleServiceImpl
@@ -10,7 +12,9 @@ import org.springframework.stereotype.Service
 @Service
 class CommentMapper(
     private val endUserServiceImpl: EndUserServiceImpl,
-    private val moduleServiceImpl: ModuleServiceImpl
+    private val moduleServiceImpl: ModuleServiceImpl,
+    private val endUserRepository: EndUserRepository,
+    private val moduleRepository: ModuleRepository
 ): Mapper<CommentDTO,Comment> {
     override fun fromEntity(entity: Comment): CommentDTO {
         return CommentDTO(
@@ -24,8 +28,8 @@ class CommentMapper(
     override fun toEntity(domain: CommentDTO): Comment {
         return Comment(
             id = domain.id,
-            user = endUserServiceImpl.findUserById(domain.userId),
-            module = moduleServiceImpl.findModuleById(domain.moduleId),
+            user = endUserRepository.findById(domain.userId).get(),
+            module = moduleRepository.findById(domain.moduleId).get(),
             commentData = domain.commentData
         )
     }

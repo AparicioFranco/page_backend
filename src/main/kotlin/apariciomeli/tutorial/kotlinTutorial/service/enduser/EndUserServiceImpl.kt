@@ -3,11 +3,9 @@ package apariciomeli.tutorial.kotlinTutorial.service.course
 import apariciomeli.tutorial.kotlinTutorial.DTO.*
 import apariciomeli.tutorial.kotlinTutorial.mapper.EndUserAdminViewMapper
 import apariciomeli.tutorial.kotlinTutorial.mapper.EndUserMapper
-import apariciomeli.tutorial.kotlinTutorial.model.Comment
 import apariciomeli.tutorial.kotlinTutorial.model.Course
 import apariciomeli.tutorial.kotlinTutorial.model.EndUser
 import apariciomeli.tutorial.kotlinTutorial.model.Module
-import apariciomeli.tutorial.kotlinTutorial.repo.CommentRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.CourseRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.EndUserRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.ModuleRepository
@@ -21,7 +19,6 @@ class EndUserServiceImpl(
     private val endUserAdminViewMapper: EndUserAdminViewMapper,
     private val courseRepository: CourseRepository,
     private val moduleRepository: ModuleRepository,
-    private val commentRepository: CommentRepository,
 ): EndUserService {
     private val passwordEncoder = BCryptPasswordEncoder()
 
@@ -37,18 +34,15 @@ class EndUserServiceImpl(
         return endUserAdminViewList
     }
 
-    override fun findUserById(userId: Int): EndUser {
-        return endUserRepository.findById(userId).get()
+    override fun findUserById(userId: Int): GetUserByIdDTO {
+        val user = endUserRepository.findById(userId).get()
+        return GetUserByIdDTO(id = user.id, name = user.name, email = user.email, role = user.role, courses = user.courses, modules = user.modules)
     }
 
     override fun addUserToCourse(userId: Int, courseId: Int): EndUser {
         val user = endUserRepository.findById(userId).get()
         val course = courseRepository.findById(courseId).get()
-
         user.courses.add(course)
-//        return endUserRepository.save(user)
-//        course.users.add(user)
-//        courseRepository.save(course)
         return endUserRepository.save(user)
     }
 

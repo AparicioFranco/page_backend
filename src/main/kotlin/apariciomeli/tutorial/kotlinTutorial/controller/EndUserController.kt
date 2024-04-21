@@ -26,9 +26,8 @@ class EndUserController(
         return endUserService.findAllUsers()
     }
 
-
     @GetMapping("/{userId}")
-    fun getUsersById(@PathVariable userId: Int): EndUser {
+    fun getUsersById(@PathVariable userId: Int): GetUserByIdDTO {
         return endUserService.findUserById(userId)
     }
 

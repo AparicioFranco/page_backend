@@ -1,16 +1,36 @@
-FROM adoptopenjdk/openjdk17:latest
+# Use a base image with Java installed
+FROM openjdk:17-jdk-slim AS builder
 
-# Set the working directory to /app
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Copy the Gradle build files
+COPY build.gradle.kts .
+COPY settings.gradle.kts .
+COPY gradlew .
+COPY gradle gradle
 
-# Install any needed packages specified in requirements.txt
-RUN apk add --no-cache postgresql-client
+# List the contents of the directory
+RUN ls -l /app/
 
-# Make port 5432 available to the world outside this container
-EXPOSE 5432
+# Copy the application source code
+COPY src src
 
-# Run the command to start the Kotlin application
-CMD ["java", "-jar", "app.jar"]
+# Download dependencies and build cache
+RUN ./gradlew --no-daemon build || return 0
+
+# Spring Boot stage
+FROM openjdk:17-jdk-slim AS springboot_stage
+
+# Set the working directory inside the container
+RUN mkdir /app
+
+# Copy the built JAR file from the builder stage
+COPY --from=builder /app/build/libs/ /app/
+
+# Expose the port that your Spring Boot application listens on
+EXPOSE 8080
+
+# Command to run your application
+CMD ["java","-jar","/app/kotlinTutorial.jar"]
+
