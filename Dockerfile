@@ -10,8 +10,8 @@ COPY settings.gradle.kts .
 COPY gradlew .
 COPY gradle gradle
 
-# List the contents of the directory
-RUN ls -l /app/
+# Set executable permissions for gradlew
+RUN chmod +x /app/gradlew
 
 # Copy the application source code
 COPY src src
