@@ -16,7 +16,9 @@ class ModuleDataMapper(
             title = entity.title,
             text = entity.text,
             video = entity.video,
-            audio = entity.audio
+            audio = entity.audio,
+            link = entity.link,
+            linkText = entity.linkText,
         )
     }
 
@@ -27,7 +29,9 @@ class ModuleDataMapper(
             title = domain.title,
             text = domain.text,
             video = domain.video,
-            audio = domain.audio
+            audio = domain.audio,
+            link = domain.link,
+            linkText = domain.linkText
         )
     }
 

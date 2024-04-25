@@ -11,6 +11,6 @@ data class Comment (
     val user: EndUser,
     @ManyToOne
     val module: Module,
-    @Column(columnDefinition = "varchar(1000)")
+    @Column(columnDefinition = "varchar(1500)")
     val commentData: String
 ){}

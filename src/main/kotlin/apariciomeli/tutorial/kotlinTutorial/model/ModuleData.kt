@@ -15,6 +15,8 @@ data class ModuleData (
     val text: String,
     val video: String,
     val audio: String,
+    val link: String,
+    var linkText: String
 ){
 
 }
