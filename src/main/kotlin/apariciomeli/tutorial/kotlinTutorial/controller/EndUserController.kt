@@ -61,4 +61,9 @@ class EndUserController(
         return endUserService.getModulesCompletedByUserId(userId).sortedBy { it.id }
     }
 
+    @GetMapping("/reset/password")
+    fun resetPassword(@PathVariable userId: Int): List<Module>{
+        return endUserService.getModulesCompletedByUserId(userId).sortedBy { it.id }
+    }
+
 }

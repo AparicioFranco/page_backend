@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.repository.CrudRepository
 
 interface EndUserRepository: CrudRepository<EndUser, Int>, JpaRepository<EndUser, Int> {
-    fun findEndUserByEmail(email:String): EndUser
+    fun findEndUserByEmailIgnoreCase(email:String): EndUser
 }

@@ -52,12 +52,11 @@ class EndUserServiceImpl(
     }
 
     override fun checkUser(user: EndUserLogInDTO): EndUserCheckedDTO {
-        val checkUser = endUserRepository.findEndUserByEmail(user.email)
+        val checkUser = endUserRepository.findEndUserByEmailIgnoreCase(user.email)
         if (passwordEncoder.matches(user.password,checkUser.password)){
             return EndUserCheckedDTO(id = checkUser.id, name = checkUser.name, email = checkUser.email, role = checkUser.role)
-        }else{
-            throw Exception("Username not found")
         }
+        throw Exception("Username not found")
     }
 
     override fun changePassword(passwordDTO: ChangePasswordDTO): EndUser {
