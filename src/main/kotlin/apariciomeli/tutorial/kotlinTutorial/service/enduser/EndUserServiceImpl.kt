@@ -11,8 +11,8 @@ import apariciomeli.tutorial.kotlinTutorial.model.Role
 import apariciomeli.tutorial.kotlinTutorial.repo.CourseRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.EndUserRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.ModuleRepository
-import org.springframework.stereotype.Service
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.stereotype.Service
 
 @Service
 class EndUserServiceImpl(

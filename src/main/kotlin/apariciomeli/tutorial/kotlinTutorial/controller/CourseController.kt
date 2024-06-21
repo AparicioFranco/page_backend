@@ -4,7 +4,6 @@ import apariciomeli.tutorial.kotlinTutorial.DTO.CourseDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserAdminViewDTO
 import apariciomeli.tutorial.kotlinTutorial.config.JwtService
 import apariciomeli.tutorial.kotlinTutorial.model.Course
-import apariciomeli.tutorial.kotlinTutorial.model.EndUser
 import apariciomeli.tutorial.kotlinTutorial.service.course.CourseService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

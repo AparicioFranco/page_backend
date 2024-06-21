@@ -5,9 +5,7 @@ import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserAdminViewDTO
 import apariciomeli.tutorial.kotlinTutorial.mapper.CourseMapper
 import apariciomeli.tutorial.kotlinTutorial.mapper.EndUserAdminViewMapper
 import apariciomeli.tutorial.kotlinTutorial.model.Course
-import apariciomeli.tutorial.kotlinTutorial.model.EndUser
 import apariciomeli.tutorial.kotlinTutorial.repo.CourseRepository
-import apariciomeli.tutorial.kotlinTutorial.service.comment.CommentService
 import org.springframework.stereotype.Service
 
 @Service

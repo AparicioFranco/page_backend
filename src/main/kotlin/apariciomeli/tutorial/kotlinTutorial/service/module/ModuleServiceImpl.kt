@@ -1,11 +1,11 @@
 package apariciomeli.tutorial.kotlinTutorial.service.module
 
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserAdminViewDTO
-import apariciomeli.tutorial.kotlinTutorial.model.Module
 import apariciomeli.tutorial.kotlinTutorial.DTO.ModuleDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.ModuleUsersReadDTO
 import apariciomeli.tutorial.kotlinTutorial.mapper.EndUserAdminViewMapper
 import apariciomeli.tutorial.kotlinTutorial.mapper.ModuleMapper
+import apariciomeli.tutorial.kotlinTutorial.model.Module
 import apariciomeli.tutorial.kotlinTutorial.repo.CourseRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.ModuleRepository
 import org.springframework.stereotype.Service

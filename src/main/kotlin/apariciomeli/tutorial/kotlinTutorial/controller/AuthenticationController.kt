@@ -1,12 +1,10 @@
 package apariciomeli.tutorial.kotlinTutorial.controller
 
-import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserDTO
 import apariciomeli.tutorial.kotlinTutorial.controller.auth.AuthenticationRequest
 import apariciomeli.tutorial.kotlinTutorial.controller.auth.AuthenticationResponse
 import apariciomeli.tutorial.kotlinTutorial.controller.auth.RegisterRequest
 import apariciomeli.tutorial.kotlinTutorial.service.auth.AuthService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
