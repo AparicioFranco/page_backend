@@ -40,15 +40,26 @@ class CommentServiceImpl(
         return getCommentListByModule
     }
 
-    override fun getCommentByUserIdAndModuleId(userId: Int, moduleId: Int): GetCommentDTO {
-        val commentModule = moduleRepository.findById(moduleId).get()
-        val commentUser = endUserRepository.findById(userId).get()
-        val commentObject = commentRepository.getCommentByUserAndModule(commentUser,commentModule)
-        return if (commentObject.isPresent) {
-            GetCommentDTO(id = commentObject.get().id, user = endUserAdminViewMapper.fromEntity(commentUser), moduleId = moduleId, commentData = commentObject.get().commentData )
-        }else{
-            GetCommentDTO(id = -1, user = endUserAdminViewMapper.fromEntity(commentUser), moduleId = moduleId, commentData = "")
+    override fun getCommentByUserIdAndModuleId(moduleId: Int): GetCommentDTO {
+        val commentModuleOptional = moduleRepository.findById(moduleId)
+        //TODO
+        val commentUserOptional = endUserRepository.findById(1)
+        if (commentUserOptional.isPresent && commentModuleOptional.isPresent){
+            val commentObject = commentRepository.getCommentByUserAndModule(commentUserOptional.get(),commentModuleOptional.get())
+            return if (commentObject.isPresent) {
+                GetCommentDTO(
+                    id = commentObject.get().id,
+                    user = endUserAdminViewMapper.fromEntity(commentUserOptional.get()),
+                    moduleId = moduleId,
+                    commentData = commentObject.get().commentData )
+            }else{
+                GetCommentDTO(id = -1,
+                    user = endUserAdminViewMapper.fromEntity(commentUserOptional.get()),
+                    moduleId = moduleId,
+                    commentData = "")
+            }
         }
+        throw Exception("User not found.")
     }
 
     override fun getAllComments(): List<CommentResponseDTO> {

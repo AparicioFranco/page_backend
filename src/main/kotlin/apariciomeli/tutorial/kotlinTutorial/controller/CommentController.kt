@@ -16,27 +16,27 @@ class CommentController(
     private val commentService: CommentService
 ) {
 
-    @PostMapping()
+    @PostMapping("/public/add")
     fun createComment(@RequestBody commentDTO: CommentDTO): Comment {
         return commentService.createComment(commentDTO)
     }
 
-    @GetMapping("/user/{courseId}")
+    @GetMapping("/private/user/{courseId}")
     fun getCommentsByUserId(@PathVariable courseId: Int): List<GetCommentDTO> {
         return commentService.getCommentsByUserId(courseId)
     }
 
-    @GetMapping("/module/{moduleId}")
+    @GetMapping("/private/module/{moduleId}")
     fun getCommentsByModuleId(@PathVariable moduleId: Int): List<GetCommentDTO> {
         return commentService.getCommentsByModuleId(moduleId)
     }
 
-    @GetMapping("/user/{userId}/{moduleId}")
-    fun getCommentByUserIdAndModuleId(@PathVariable userId: Int, @PathVariable moduleId: Int): GetCommentDTO {
-        return commentService.getCommentByUserIdAndModuleId(userId,moduleId)
+    @GetMapping("/public/own/{moduleId}")
+    fun getCommentByUserIdAndModuleId(@PathVariable moduleId: Int): GetCommentDTO {
+        return commentService.getCommentByUserIdAndModuleId(moduleId)
     }
 
-    @GetMapping("/all")
+    @GetMapping("/private/all")
     fun getAllComments(): List<CommentResponseDTO> {
         return commentService.getAllComments()
     }

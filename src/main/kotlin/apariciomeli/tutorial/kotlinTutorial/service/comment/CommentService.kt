@@ -13,7 +13,7 @@ interface CommentService {
 
     fun getCommentsByModuleId(moduleId: Int): List<GetCommentDTO>
 
-    fun getCommentByUserIdAndModuleId(userId: Int, moduleId: Int): GetCommentDTO
+    fun getCommentByUserIdAndModuleId(moduleId: Int): GetCommentDTO
 
     fun getAllComments(): List<CommentResponseDTO>
 

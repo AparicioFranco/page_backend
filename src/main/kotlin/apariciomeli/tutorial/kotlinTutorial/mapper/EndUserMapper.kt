@@ -1,12 +1,9 @@
 package apariciomeli.tutorial.kotlinTutorial.mapper
 
-import apariciomeli.tutorial.kotlinTutorial.DTO.CourseDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserDTO
-import apariciomeli.tutorial.kotlinTutorial.model.Course
 import apariciomeli.tutorial.kotlinTutorial.model.EndUser
 import org.springframework.stereotype.Service
-import apariciomeli.tutorial.kotlinTutorial.model.Module
-import java.util.Date
+import apariciomeli.tutorial.kotlinTutorial.model.Role
 
 @Service
 class EndUserMapper: Mapper<EndUserDTO, EndUser> {
@@ -15,8 +12,8 @@ class EndUserMapper: Mapper<EndUserDTO, EndUser> {
             id = entity.id,
             name=  entity.name,
             email = entity.email,
-            role = entity.role,
-            password = entity.password,
+            role = Role.valueOf(entity.role.name),
+            password = entity.passw
         )
     }
 
@@ -24,7 +21,7 @@ class EndUserMapper: Mapper<EndUserDTO, EndUser> {
         return EndUser(
             id = domain.id,
             name = domain.name,
-            password = domain.password,
+            passw = domain.password,
             email = domain.email,
             role = domain.role,
             joinDate = java.util.Calendar.getInstance(),

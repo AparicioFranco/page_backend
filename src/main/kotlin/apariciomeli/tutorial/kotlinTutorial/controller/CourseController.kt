@@ -2,34 +2,39 @@ package apariciomeli.tutorial.kotlinTutorial.controller
 
 import apariciomeli.tutorial.kotlinTutorial.DTO.CourseDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserAdminViewDTO
+import apariciomeli.tutorial.kotlinTutorial.config.JwtService
 import apariciomeli.tutorial.kotlinTutorial.model.Course
 import apariciomeli.tutorial.kotlinTutorial.model.EndUser
 import apariciomeli.tutorial.kotlinTutorial.service.course.CourseService
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/course")
 class CourseController(
-    private val courseService: CourseService
+    private val courseService: CourseService,
+    private val jwtService: JwtService
 ) {
 
-    @PostMapping()
+    @PostMapping("/private/add")
     fun createCourse(@RequestBody courseDTO: CourseDTO): Course {
         return courseService.createCourse(courseDTO)
     }
 
-    @GetMapping()
-    fun getCourses(): List<Course> {
-        return courseService.findAllCourses().sortedBy { it.id }
+    @GetMapping("/private/get")
+    fun getCourses(): ResponseEntity<List<Course>> {
+        val course = courseService.findAllCourses().sortedBy { it.id }
+        println(course)
+        return ResponseEntity.ok(course)
     }
 
-    @GetMapping("/{courseId}")
+    @GetMapping("/public/id/{courseId}")
     fun getCourseById(@PathVariable courseId: Int): Course {
         return courseService.findCourseById(courseId)
     }
 
-    @GetMapping("/user/{courseId}")
+    @GetMapping("/private/user/{courseId}")
     fun getUsersByCourseId(@PathVariable courseId: Int): List<EndUserAdminViewDTO> {
         return courseService.getUsersByCourseId(courseId)
     }
