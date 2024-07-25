@@ -50,9 +50,5 @@ class AuthServiceImpl(
         return AuthenticationResponse(jwtToken,sendRole)
     }
 
-    override fun testing(): String {
-        return "testing"
-    }
-
 
 }

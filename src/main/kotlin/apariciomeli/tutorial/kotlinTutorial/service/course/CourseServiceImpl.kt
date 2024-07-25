@@ -1,6 +1,8 @@
 package apariciomeli.tutorial.kotlinTutorial.service.course
 
 import apariciomeli.tutorial.kotlinTutorial.DTO.CourseDTO
+import apariciomeli.tutorial.kotlinTutorial.DTO.CourseSendDTO
+import apariciomeli.tutorial.kotlinTutorial.DTO.CustomDateDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserAdminViewDTO
 import apariciomeli.tutorial.kotlinTutorial.mapper.CourseMapper
 import apariciomeli.tutorial.kotlinTutorial.mapper.EndUserAdminViewMapper
@@ -20,8 +22,19 @@ class CourseServiceImpl(
         return courseRepository.save(course)
     }
 
-    override fun findCourseById(courseId: Int): Course {
-        return courseRepository.findById(courseId).orElseThrow()
+    override fun findCourseById(courseId: Int): CourseSendDTO {
+        val courseOptional = courseRepository.findById(courseId)
+        if (courseOptional.isPresent){
+            val coursePresent = courseOptional.get()
+            val courseDate = coursePresent.startDate
+            return CourseSendDTO(
+                id = coursePresent.id,
+                name = coursePresent.name,
+                description = coursePresent.description,
+                startDate = CustomDateDTO(year = courseDate.year, month = courseDate.month.value, day = courseDate.dayOfMonth)
+            )
+        }
+        throw Exception("Course not found")
     }
 
     override fun findAllCourses(): List<Course> {

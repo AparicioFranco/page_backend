@@ -20,6 +20,11 @@ class EndUserController(
         return endUserService.createUser(endUserDTO)
     }
 
+    @GetMapping("/private/check")
+    fun getPrivate(): String{
+        return "Hi"
+    }
+
     @GetMapping("/private/get")
     fun getUsers(): List<EndUserAdminViewDTO> {
         return endUserService.findAllUsers()
@@ -60,8 +65,13 @@ class EndUserController(
         return endUserService.getModulesCompletedByUserToken(token).sortedBy { it.id }
     }
 
-//    @GetMapping("/reset/password")
-//    fun resetPassword(@PathVariable userId: Int): List<Module>{
-//        return endUserService.getModulesCompletedByUserToken(userId).sortedBy { it.id }
-//    }
+    @GetMapping("/public/module/completed/{courseId}/calendar")
+    fun getMarkedDaysCalendar(@RequestHeader("Authorization") token: String, @PathVariable courseId: Int): List<Int>{
+        return endUserService.getCompletedModulesForCalendar(token, courseId)
+    }
+
+    @GetMapping("/reset/password")
+    fun resetPassword(@RequestBody userEmail: String): EndUser{
+        return endUserService.resetUserPassword(userEmail)
+    }
 }

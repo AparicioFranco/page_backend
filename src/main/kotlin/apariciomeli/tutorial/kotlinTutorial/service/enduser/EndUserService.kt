@@ -15,4 +15,6 @@ interface EndUserService {
     fun changePassword(bearerToken: String, passwordDTO: ChangePasswordDTO): EndUser
     fun addModuleToModuleReadList(bearerToken:String, moduleId: Int): List<Module>
     fun getModulesCompletedByUserToken(token: String): List<Module>
+    fun getCompletedModulesForCalendar(token: String, courseId: Int): List<Int>
+    fun resetUserPassword(userEmail: String): EndUser
 }

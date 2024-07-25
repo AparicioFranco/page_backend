@@ -18,29 +18,6 @@ class SecurityConfiguration(
     val authenticationProvider: AuthenticationProvider,
 ) {
 
-    val PERMIT_ALL_COMMENT = arrayOf(
-        "/api/comment/add",
-        "/api/comment/own/"
-    )
-
-    val PERMIT_ALL_COURSE: Array<String> = arrayOf(
-        "/api/course/id/",
-    )
-
-    val PERMIT_ALL_USER: Array<String> = arrayOf(
-        "/api/user/own/course",
-        "/api/user/module/read",
-        "/api/user/module/completed"
-    )
-
-    val PERMIT_ALL_MODULE: Array<String> = arrayOf(
-        "/api/module/course/available/",
-    )
-
-    val PERMIT_ALL_MODULE_DATA: Array<String> = arrayOf(
-        "/api/module-data/module/",
-    )
-
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
@@ -63,18 +40,6 @@ class SecurityConfiguration(
                     .requestMatchers("/api/module/private/**").hasAuthority(Role.ADMIN.name)
                     .requestMatchers("/api/module-data/public/**").hasAnyAuthority(Role.USER.name, Role.ADMIN.name)
                     .requestMatchers("/api/module-data/private/**").hasAuthority(Role.ADMIN.name)
-//                    .requestMatchers("/api/auth/private/").hasAuthority(Role.ADMIN.name)
-//                    .requestMatchers(*PERMIT_ALL_COMMENT).hasAnyAuthority(Role.USER.name, Role.ADMIN.name)
-//                    .requestMatchers("/api/comment/**").hasAuthority(Role.ADMIN.name)
-//                    .requestMatchers(*PERMIT_ALL_COURSE).hasAnyAuthority(Role.USER.name, Role.ADMIN.name)
-//                    .requestMatchers("/api/course/**").hasAnyAuthority(Role.ADMIN.name, Role.USER.name)
-//                    .requestMatchers("/api/user/reset/password").permitAll()
-//                    .requestMatchers(*PERMIT_ALL_USER).hasAnyAuthority(Role.USER.name, Role.ADMIN.name)
-//                    .requestMatchers("/api/user/**").hasAnyAuthority(Role.ADMIN.name)
-//                    .requestMatchers(*PERMIT_ALL_MODULE).hasAnyAuthority(Role.USER.name, Role.ADMIN.name)
-//                    .requestMatchers("/api/module/**").hasAnyAuthority(Role.ADMIN.name, Role.USER.name)
-//                    .requestMatchers(*PERMIT_ALL_MODULE_DATA).hasAnyAuthority(Role.USER.name, Role.ADMIN.name)
-//                    .requestMatchers("/api/module-data/**").hasAnyAuthority(Role.ADMIN.name)
                     .anyRequest()
                     .authenticated()
             }

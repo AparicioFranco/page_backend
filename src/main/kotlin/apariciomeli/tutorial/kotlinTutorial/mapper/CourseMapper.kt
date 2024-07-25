@@ -4,6 +4,8 @@ import apariciomeli.tutorial.kotlinTutorial.DTO.CourseDTO
 import apariciomeli.tutorial.kotlinTutorial.model.Course
 import org.springframework.stereotype.Service
 import apariciomeli.tutorial.kotlinTutorial.model.Module
+import java.time.LocalDate
+import java.util.Date
 
 @Service
 class CourseMapper: Mapper<CourseDTO, Course> {
@@ -20,7 +22,8 @@ class CourseMapper: Mapper<CourseDTO, Course> {
             id = domain.id,
             name = domain.name,
             description = domain.description,
-            users = mutableListOf()
+            users = mutableListOf(),
+            startDate = LocalDate.now()
         )
     }
 }

@@ -13,6 +13,4 @@ interface AuthService {
 
     fun authenticate(authenticationRequest: AuthenticationRequest) : AuthenticationResponse
 
-    fun testing(): String
-
 }

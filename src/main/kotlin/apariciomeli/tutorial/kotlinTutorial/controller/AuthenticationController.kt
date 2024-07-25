@@ -19,14 +19,11 @@ class AuthenticationController(
 
     @PostMapping("/private/register")
     fun register(@RequestBody request: RegisterRequest): ResponseEntity<AuthenticationResponse>{
-        println("hola")
         return ResponseEntity.ok(authService.register(request))
     }
 
     @PostMapping("/public/authenticate")
     fun authenticate(@RequestBody request: AuthenticationRequest): ResponseEntity<AuthenticationResponse>{
-        println("authenticate")
-        println(request.email)
         return ResponseEntity.ok(authService.authenticate(request))
     }
 

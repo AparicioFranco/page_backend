@@ -16,19 +16,11 @@ class JwtAuthenticationFilter(
     private val jwtService: JwtService,
     private val userDetailsService: UserDetailsService,
 ): OncePerRequestFilter() {
-
-
-
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
         filterChain: FilterChain,
     ) {
-//        response.setHeader("Access-Control-Allow-Origin", "*"); // * = all domainName
-//        response.setHeader("Access-Control-Allow-Credentials", "true"); // allow CrossDomain to use Origin Domain
-//        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
-//        response.setHeader("Access-Control-Max-Age", "3600"); // Preflight cache duration in browser
-//        response.setHeader("Access-Control-Allow-Headers", "*"); // all header
         if (request.servletPath.contains("/api/v1/auth")) {
             filterChain.doFilter(request, response)
             return

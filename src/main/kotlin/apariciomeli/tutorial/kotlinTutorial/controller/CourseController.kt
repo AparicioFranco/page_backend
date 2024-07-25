@@ -1,6 +1,7 @@
 package apariciomeli.tutorial.kotlinTutorial.controller
 
 import apariciomeli.tutorial.kotlinTutorial.DTO.CourseDTO
+import apariciomeli.tutorial.kotlinTutorial.DTO.CourseSendDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserAdminViewDTO
 import apariciomeli.tutorial.kotlinTutorial.config.JwtService
 import apariciomeli.tutorial.kotlinTutorial.model.Course
@@ -22,16 +23,16 @@ class CourseController(
     }
 
     @GetMapping("/private/get")
-    fun getCourses(): ResponseEntity<List<Course>> {
+    fun getCourses(): List<Course> {
         val course = courseService.findAllCourses().sortedBy { it.id }
-        println(course)
-        return ResponseEntity.ok(course)
+        return course
     }
 
     @GetMapping("/public/id/{courseId}")
-    fun getCourseById(@PathVariable courseId: Int): Course {
+    fun getCourseById(@PathVariable courseId: Int): CourseSendDTO {
         return courseService.findCourseById(courseId)
     }
+
 
     @GetMapping("/private/user/{courseId}")
     fun getUsersByCourseId(@PathVariable courseId: Int): List<EndUserAdminViewDTO> {

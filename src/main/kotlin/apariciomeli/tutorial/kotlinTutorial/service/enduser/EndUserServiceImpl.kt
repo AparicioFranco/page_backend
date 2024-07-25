@@ -11,8 +11,11 @@ import apariciomeli.tutorial.kotlinTutorial.model.Role
 import apariciomeli.tutorial.kotlinTutorial.repo.CourseRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.EndUserRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.ModuleRepository
+import apariciomeli.tutorial.kotlinTutorial.service.module.ModuleServiceImpl
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import java.util.concurrent.ThreadLocalRandom
+import kotlin.streams.asSequence
 
 @Service
 class EndUserServiceImpl(
@@ -21,9 +24,18 @@ class EndUserServiceImpl(
     private val endUserAdminViewMapper: EndUserAdminViewMapper,
     private val courseRepository: CourseRepository,
     private val moduleRepository: ModuleRepository,
-    private val jwtService: JwtService
+    private val jwtService: JwtService,
+    private val moduleServiceImpl: ModuleServiceImpl
 ): EndUserService {
     private val passwordEncoder = BCryptPasswordEncoder()
+    val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+    fun generateRandomPassword(): String {
+        return ThreadLocalRandom.current()
+            .ints(12, 0, charPool.size)
+            .asSequence()
+            .map(charPool::get)
+            .joinToString("")
+    }
 
     override fun createUser(endUserDTO: EndUserDTO): EndUser {
         endUserDTO.password = passwordEncoder.encode(endUserDTO.password)
@@ -104,4 +116,39 @@ class EndUserServiceImpl(
         throw Exception("User not found.")
     }
 
+    override fun getCompletedModulesForCalendar(token: String, courseId: Int): List<Int> {
+        val userEmail = jwtService.extractUsernameFromToken(token)
+        val userOptional = endUserRepository.findEndUserByEmailIgnoreCase(userEmail)
+        val availableModules = moduleServiceImpl.getModulesByAvailabilityAndCourseId(courseId).sortedBy { it.id }
+        if (userOptional.isPresent){
+            val user = userOptional.get()
+//            val completedModules = user.modules.sortedBy { it.id }
+            val completedModules = user.modules.filter { it.course.id == courseId }.sortedBy { it.id }
+            val calendarList = mutableListOf<Int>()
+            for (module in availableModules){
+                if (module.name == "Instrucciones" || module.name == "Bonus"){
+                    continue
+                }
+                if (completedModules.contains(module)){
+                    calendarList.add(1)
+                }else{
+                    calendarList.add(0)
+                }
+            }
+            return calendarList
+        }
+        throw Exception("User not found.")
+    }
+
+    override fun resetUserPassword(userEmail: String): EndUser {
+        val userOptional = endUserRepository.findEndUserByEmailIgnoreCase(userEmail)
+        if (userOptional.isPresent){
+            val user = userOptional.get()
+            val newPassword = generateRandomPassword()
+            val finalUser = user.copy(passw = passwordEncoder.encode(newPassword))
+            //TODO send email with password
+            return endUserRepository.save(finalUser)
+        }
+        throw Exception("User not found.")
+    }
 }
