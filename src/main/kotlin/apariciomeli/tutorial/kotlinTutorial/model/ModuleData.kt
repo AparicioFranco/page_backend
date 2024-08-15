@@ -1,6 +1,5 @@
 package apariciomeli.tutorial.kotlinTutorial.model
 
-import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
 
 @Entity

@@ -60,7 +60,7 @@ class JwtService {
             // 1000 = to secs, 60=to minutes, 60= to hours, 12= 12hours
             .setExpiration(Date(date.time + 1000*60*60*12))
             .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-            .compact();
+            .compact()
     }
 
     fun isTokenValid(token:String, userDetails: UserDetails): Boolean{
