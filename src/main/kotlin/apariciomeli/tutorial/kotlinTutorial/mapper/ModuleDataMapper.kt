@@ -19,6 +19,7 @@ class ModuleDataMapper(
             audio = entity.audio,
             link = entity.link,
             linkText = entity.linkText,
+            file = entity.file,
         )
     }
 
@@ -31,7 +32,8 @@ class ModuleDataMapper(
             video = domain.video,
             audio = domain.audio,
             link = domain.link,
-            linkText = domain.linkText
+            linkText = domain.linkText,
+            file = domain.file
         )
     }
 

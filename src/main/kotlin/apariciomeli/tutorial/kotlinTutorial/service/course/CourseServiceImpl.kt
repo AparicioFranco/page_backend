@@ -1,13 +1,13 @@
 package apariciomeli.tutorial.kotlinTutorial.service.course
 
 import apariciomeli.tutorial.kotlinTutorial.DTO.CourseDTO
+import apariciomeli.tutorial.kotlinTutorial.DTO.CourseSendDTO
+import apariciomeli.tutorial.kotlinTutorial.DTO.CustomDateDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserAdminViewDTO
 import apariciomeli.tutorial.kotlinTutorial.mapper.CourseMapper
 import apariciomeli.tutorial.kotlinTutorial.mapper.EndUserAdminViewMapper
 import apariciomeli.tutorial.kotlinTutorial.model.Course
-import apariciomeli.tutorial.kotlinTutorial.model.EndUser
 import apariciomeli.tutorial.kotlinTutorial.repo.CourseRepository
-import apariciomeli.tutorial.kotlinTutorial.service.comment.CommentService
 import org.springframework.stereotype.Service
 
 @Service
@@ -22,8 +22,19 @@ class CourseServiceImpl(
         return courseRepository.save(course)
     }
 
-    override fun findCourseById(courseId: Int): Course {
-        return courseRepository.findById(courseId).orElseThrow()
+    override fun findCourseById(courseId: Int): CourseSendDTO {
+        val courseOptional = courseRepository.findById(courseId)
+        if (courseOptional.isPresent){
+            val coursePresent = courseOptional.get()
+            val courseDate = coursePresent.startDate
+            return CourseSendDTO(
+                id = coursePresent.id,
+                name = coursePresent.name,
+                description = coursePresent.description,
+                startDate = CustomDateDTO(year = courseDate.year, month = courseDate.month.value, day = courseDate.dayOfMonth)
+            )
+        }
+        throw Exception("Course not found")
     }
 
     override fun findAllCourses(): List<Course> {
@@ -33,7 +44,9 @@ class CourseServiceImpl(
     override fun getUsersByCourseId(courseId: Int): List<EndUserAdminViewDTO> {
         val course = courseRepository.findById(courseId).get()
         val usersInCourse = mutableListOf<EndUserAdminViewDTO>()
-        course.users.toList().sortedBy { it.id }.forEach { usersInCourse.add(endUserAdminViewMapper.fromEntity(it)) }
+        course.users.toList()
+            .sortedBy { it.id }
+            .forEach { usersInCourse.add(endUserAdminViewMapper.fromEntity(it)) }
         return usersInCourse
     }
 

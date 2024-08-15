@@ -2,13 +2,14 @@ package apariciomeli.tutorial.kotlinTutorial.mapper
 
 import apariciomeli.tutorial.kotlinTutorial.DTO.ModuleDTO
 import apariciomeli.tutorial.kotlinTutorial.model.Module
-import apariciomeli.tutorial.kotlinTutorial.service.comment.CommentServiceImpl
+import apariciomeli.tutorial.kotlinTutorial.repo.CourseRepository
 import apariciomeli.tutorial.kotlinTutorial.service.course.CourseServiceImpl
 import org.springframework.stereotype.Service
 
 @Service
 class ModuleMapper(
-    private val courseServiceImpl: CourseServiceImpl
+    private val courseServiceImpl: CourseServiceImpl,
+    private val courseRepository: CourseRepository
 ): Mapper<ModuleDTO, Module> {
 
     override fun fromEntity(entity: Module): ModuleDTO {
@@ -26,7 +27,7 @@ class ModuleMapper(
             id = domain.id,
             name = domain.name,
             locked = true,
-            course = courseServiceImpl.findCourseById(domain.courseId),
+            course = courseRepository.findById(domain.id).get(),
             question = domain.question
         )
     }

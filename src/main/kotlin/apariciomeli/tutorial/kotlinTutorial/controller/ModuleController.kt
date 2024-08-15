@@ -12,32 +12,32 @@ import org.springframework.web.bind.annotation.*
 class ModuleController(
     private val moduleService: ModuleService
 ) {
-    @PostMapping
+    @PostMapping("/private/add")
     fun createModule(@RequestBody moduleDTO: ModuleDTO): Module {
         return moduleService.createModule(moduleDTO)
     }
 
-    @GetMapping("/course/{courseId}")
+    @GetMapping("/private/course/{courseId}")
     fun getModulesByCourseId(@PathVariable courseId: Int): List<Module> {
         return moduleService.getModulesByCourseId(courseId).sortedBy { it.id }
     }
 
-    @GetMapping("/course/available/{courseId}")
+    @GetMapping("/public/course/available/{courseId}")
     fun getAvailableModulesByCourseId(@PathVariable courseId: Int): List<Module> {
         return moduleService.getModulesByAvailabilityAndCourseId(courseId).sortedBy { it.id }
     }
 
-    @GetMapping("/{moduleId}")
+    @GetMapping("/public/{moduleId}")
     fun getModulesContentByModuleId(@PathVariable moduleId: Int): Module {
         return moduleService.getModulesContentByModuleId(moduleId)
     }
 
-    @GetMapping("/user")
+    @GetMapping("/private/user")
     fun getUsersReadModule(): List<ModuleUsersReadDTO> {
         return moduleService.getUsersReadModule()
     }
 
-    @PutMapping("/changeLock/{moduleId}")
+    @PutMapping("/private/changeLock/{moduleId}")
     fun changeLockModule(@PathVariable moduleId: Int): Module {
         return moduleService.changeLockStatus(moduleId)
     }

@@ -10,14 +10,25 @@ COPY settings.gradle.kts .
 COPY gradlew .
 COPY gradle gradle
 
+RUN apt-get update && apt-get install -y bash curl
+
+# Install dos2unix to convert Windows line endings to Unix
+RUN apt-get update && apt-get install -y dos2unix
+
+# Convert gradlew to Unix line endings
+RUN dos2unix /app/gradlew
+
 # Set executable permissions for gradlew
 RUN chmod +x /app/gradlew
+
+# List the contents of the directory
+RUN ls -l /app/gradlew
 
 # Copy the application source code
 COPY src src
 
 # Download dependencies and build cache
-RUN ./gradlew --no-daemon build || return 0
+RUN /bin/bash ./gradlew --no-daemon build
 
 # Spring Boot stage
 FROM openjdk:17-jdk-slim AS springboot_stage
@@ -32,5 +43,4 @@ COPY --from=builder /app/build/libs/ /app/
 EXPOSE 8080
 
 # Command to run your application
-CMD ["java","-jar","/app/kotlinTutorial.jar"]
-
+CMD ["java","-jar","/app/listadelimperio_backend.jar"]

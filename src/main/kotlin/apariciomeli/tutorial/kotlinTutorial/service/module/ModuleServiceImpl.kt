@@ -1,11 +1,11 @@
 package apariciomeli.tutorial.kotlinTutorial.service.module
 
 import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserAdminViewDTO
-import apariciomeli.tutorial.kotlinTutorial.model.Module
 import apariciomeli.tutorial.kotlinTutorial.DTO.ModuleDTO
 import apariciomeli.tutorial.kotlinTutorial.DTO.ModuleUsersReadDTO
 import apariciomeli.tutorial.kotlinTutorial.mapper.EndUserAdminViewMapper
 import apariciomeli.tutorial.kotlinTutorial.mapper.ModuleMapper
+import apariciomeli.tutorial.kotlinTutorial.model.Module
 import apariciomeli.tutorial.kotlinTutorial.repo.CourseRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.ModuleRepository
 import org.springframework.stereotype.Service
@@ -42,7 +42,11 @@ class ModuleServiceImpl(
     }
 
     override fun getModulesContentByModuleId(moduleId: Int): Module {
-        return moduleRepository.findById(moduleId).get()
+        val moduleOptional = moduleRepository.findById(moduleId)
+        if (moduleOptional.isPresent){
+            return moduleOptional.get()
+        }
+        throw Exception("Not found")
     }
 
     override fun findModuleById(moduleId: Int): Module {
@@ -62,10 +66,6 @@ class ModuleServiceImpl(
 
     override fun changeLockStatus(moduleId: Int): Module {
         val moduleToChange = moduleRepository.findById(moduleId).get()
-        println("Test" + moduleToChange.id)
-        println("Test" + moduleToChange.name)
-        println("Test" + moduleToChange.id)
-        println("Test" + moduleToChange.locked)
         val newModule = moduleToChange.copy(locked = !moduleToChange.locked)
         moduleRepository.save(newModule)
         return newModule

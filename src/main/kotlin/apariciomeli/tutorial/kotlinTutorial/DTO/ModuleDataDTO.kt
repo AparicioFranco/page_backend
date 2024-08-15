@@ -8,6 +8,7 @@ class ModuleDataDTO (
     var video: String,
     var audio: String,
     var link: String,
-    var linkText: String
+    var linkText: String,
+    var file: String
 )
 

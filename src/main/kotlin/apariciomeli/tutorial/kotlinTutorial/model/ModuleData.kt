@@ -1,6 +1,5 @@
 package apariciomeli.tutorial.kotlinTutorial.model
 
-import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
 
 @Entity
@@ -16,7 +15,8 @@ data class ModuleData (
     val video: String,
     val audio: String,
     val link: String,
-    var linkText: String
+    var linkText: String,
+    val file: String
 ){
 
 }
