@@ -18,7 +18,7 @@ class KotlinTutorialApplication {
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry
                     .addMapping("/**")
-                    .allowedOrigins("http://localhost:3000", "https://apariciomeli.com")
+                    .allowedOrigins("http://localhost:3000", "https://listadelimperio.com/")
                     .allowedMethods("*")
             }
         }
