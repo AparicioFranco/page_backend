@@ -15,7 +15,7 @@ class EndUserController(
 ) {
 
 
-    @PostMapping()
+    @PostMapping("/public/new")
     fun createUser(@RequestBody endUserDTO: EndUserDTO): EndUser {
         return endUserService.createUser(endUserDTO)
     }
@@ -68,10 +68,5 @@ class EndUserController(
     @GetMapping("/public/module/completed/{courseId}/calendar")
     fun getMarkedDaysCalendar(@RequestHeader("Authorization") token: String, @PathVariable courseId: Int): List<Int>{
         return endUserService.getCompletedModulesForCalendar(token, courseId)
-    }
-
-    @GetMapping("/reset/password")
-    fun resetPassword(@RequestBody userEmail: String): EndUser{
-        return endUserService.resetUserPassword(userEmail)
     }
 }

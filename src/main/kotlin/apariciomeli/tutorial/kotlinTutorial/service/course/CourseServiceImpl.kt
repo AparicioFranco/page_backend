@@ -44,7 +44,9 @@ class CourseServiceImpl(
     override fun getUsersByCourseId(courseId: Int): List<EndUserAdminViewDTO> {
         val course = courseRepository.findById(courseId).get()
         val usersInCourse = mutableListOf<EndUserAdminViewDTO>()
-        course.users.toList().sortedBy { it.id }.forEach { usersInCourse.add(endUserAdminViewMapper.fromEntity(it)) }
+        course.users.toList()
+            .sortedBy { it.id }
+            .forEach { usersInCourse.add(endUserAdminViewMapper.fromEntity(it)) }
         return usersInCourse
     }
 

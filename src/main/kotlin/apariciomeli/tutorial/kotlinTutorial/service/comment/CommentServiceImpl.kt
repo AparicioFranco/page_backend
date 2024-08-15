@@ -27,16 +27,40 @@ class CommentServiceImpl(
     }
 
     override fun getCommentsByUserId(userId: Int): List<GetCommentDTO> {
-        val commentUser = endUserRepository.findById(userId).get()
+        val commentUserOptional = endUserRepository.findById(userId)
         val commentListUser = mutableListOf<GetCommentDTO>()
-        commentRepository.getCommentsByUser(commentUser).sortedBy { it.id }.forEach{commentListUser.add(GetCommentDTO(id = it.id, user = endUserAdminViewMapper.fromEntity(commentUser), moduleId = it.module.id, commentData = it.commentData)) }
+        if (commentUserOptional.isPresent) {
+            val commentUser = commentUserOptional.get()
+            commentRepository.getCommentsByUser(commentUser)
+                .sortedBy { it.id }
+                .forEach{
+                    commentListUser.add(GetCommentDTO(
+                        id = it.id,
+                        user = endUserAdminViewMapper.fromEntity(commentUser),
+                        moduleId = it.module.id,
+                        commentData = it.commentData
+                    ))
+                }
+        }
         return commentListUser
     }
 
     override fun getCommentsByModuleId(moduleId: Int): List<GetCommentDTO> {
-        val commentsModule = moduleRepository.findById(moduleId).get()
+        val commentsModuleOptional = moduleRepository.findById(moduleId)
         val getCommentListByModule = mutableListOf<GetCommentDTO>()
-        commentRepository.getCommentsByModule(commentsModule).sortedBy { it.id }.forEach { getCommentListByModule.add(GetCommentDTO(id = it.id, user = endUserAdminViewMapper.fromEntity(it.user), moduleId = it.module.id, commentData = it.commentData)) }
+        if (commentsModuleOptional.isPresent) {
+            val commentsModule = commentsModuleOptional.get()
+            commentRepository.getCommentsByModule(commentsModule)
+                .sortedBy { it.id }
+                .forEach {
+                    getCommentListByModule.add(GetCommentDTO(
+                        id = it.id,
+                        user = endUserAdminViewMapper.fromEntity(it.user),
+                        moduleId = it.module.id,
+                        commentData = it.commentData
+                    ))
+                }
+        }
         return getCommentListByModule
     }
 

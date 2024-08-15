@@ -30,12 +30,14 @@ class ModuleDataServiceImpl(
     }
 
     override fun getModulesDataByCourseId(courseId: Int): List<List<ModuleData>> {
-        val course = courseRepository.findById(courseId).get()
-        val modules = moduleRepository.findAllByCourse(course).sortedBy { it.id }
+        val courseOptional = courseRepository.findById(courseId)
         val modulesDataReturn = mutableListOf<List<ModuleData>>()
-        for (module in modules) {
-            val moduleDataTemp = moduleDataRepository.findAllByModuleId(module.id)
-            modulesDataReturn.add(moduleDataTemp)
+        if (courseOptional.isPresent){
+            val modules = moduleRepository.findAllByCourse(courseOptional.get()).sortedBy { it.id }
+            for (module in modules) {
+                val moduleDataTemp = moduleDataRepository.findAllByModuleId(module.id)
+                modulesDataReturn.add(moduleDataTemp)
+            }
         }
         return modulesDataReturn
     }

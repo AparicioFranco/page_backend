@@ -11,11 +11,13 @@ import apariciomeli.tutorial.kotlinTutorial.model.Role
 import apariciomeli.tutorial.kotlinTutorial.repo.CourseRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.EndUserRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.ModuleRepository
+//import apariciomeli.tutorial.kotlinTutorial.service.enduser.EmailJavaSenderService
 import apariciomeli.tutorial.kotlinTutorial.service.module.ModuleServiceImpl
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.streams.asSequence
+import apariciomeli.tutorial.kotlinTutorial.service.enduser.EmailSenderService
 
 @Service
 class EndUserServiceImpl(
@@ -25,7 +27,9 @@ class EndUserServiceImpl(
     private val courseRepository: CourseRepository,
     private val moduleRepository: ModuleRepository,
     private val jwtService: JwtService,
-    private val moduleServiceImpl: ModuleServiceImpl
+    private val moduleServiceImpl: ModuleServiceImpl,
+//    private val emailSenderService: EmailJavaSenderService,
+    private val emailSenderService: EmailSenderService
 ): EndUserService {
     private val passwordEncoder = BCryptPasswordEncoder()
     val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
@@ -51,15 +55,30 @@ class EndUserServiceImpl(
     }
 
     override fun findUserById(userId: Int): GetUserByIdDTO {
-        val user = endUserRepository.findById(userId).get()
-        return GetUserByIdDTO(id = user.id, name = user.name, email = user.email, role = user.role.name, courses = user.courses, modules = user.modules)
+        val userOptional = endUserRepository.findById(userId)
+        if (userOptional.isPresent){
+            val userPresent = userOptional.get()
+            return GetUserByIdDTO(
+                id = userPresent.id,
+                name = userPresent.name,
+                email = userPresent.email,
+                role = userPresent.role.name,
+                courses = userPresent.courses,
+                modules = userPresent.modules)
+        }
+        throw Exception("User not found")
     }
 
     override fun addUserToCourse(userId: Int, courseId: Int): EndUser {
-        val user = endUserRepository.findById(userId).get()
-        val course = courseRepository.findById(courseId).get()
-        user.courses.add(course)
-        return endUserRepository.save(user)
+        val userOptional = endUserRepository.findById(userId)
+        val courseOptional = courseRepository.findById(courseId)
+        if (userOptional.isPresent && courseOptional.isPresent){
+            val userPresent = userOptional.get()
+            val coursePresent = courseOptional.get()
+            userPresent.courses.add(coursePresent)
+            return endUserRepository.save(userPresent)
+        }
+        throw Exception("User not found")
     }
 
     override fun getCoursesByUserId(token: String): List<Course> {
@@ -121,9 +140,9 @@ class EndUserServiceImpl(
         val userOptional = endUserRepository.findEndUserByEmailIgnoreCase(userEmail)
         val availableModules = moduleServiceImpl.getModulesByAvailabilityAndCourseId(courseId).sortedBy { it.id }
         if (userOptional.isPresent){
-            val user = userOptional.get()
+            val userPresent = userOptional.get()
 //            val completedModules = user.modules.sortedBy { it.id }
-            val completedModules = user.modules.filter { it.course.id == courseId }.sortedBy { it.id }
+            val completedModules = userPresent.modules.filter { it.course.id == courseId }.sortedBy { it.id }
             val calendarList = mutableListOf<Int>()
             for (module in availableModules){
                 if (module.name == "Instrucciones" || module.name == "Bonus"){
@@ -140,15 +159,19 @@ class EndUserServiceImpl(
         throw Exception("User not found.")
     }
 
-    override fun resetUserPassword(userEmail: String): EndUser {
-        val userOptional = endUserRepository.findEndUserByEmailIgnoreCase(userEmail)
+    override fun resetUserPassword(userEmail: UserEmailDTO): EndUser {
+        val email = userEmail.userEmail
+        val userOptional = endUserRepository.findEndUserByEmailIgnoreCase(email)
         if (userOptional.isPresent){
             val user = userOptional.get()
             val newPassword = generateRandomPassword()
             val finalUser = user.copy(passw = passwordEncoder.encode(newPassword))
-            //TODO send email with password
+            emailSenderService.sendEMail(newPassword,email)
             return endUserRepository.save(finalUser)
         }
         throw Exception("User not found.")
+    }
+    override fun sendEmail(userEmail: UserEmailDTO) {
+        emailSenderService.sendEMail("apa1234",userEmail.userEmail)
     }
 }

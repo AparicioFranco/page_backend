@@ -42,7 +42,11 @@ class ModuleServiceImpl(
     }
 
     override fun getModulesContentByModuleId(moduleId: Int): Module {
-        return moduleRepository.findById(moduleId).get()
+        val moduleOptional = moduleRepository.findById(moduleId)
+        if (moduleOptional.isPresent){
+            return moduleOptional.get()
+        }
+        throw Exception("Not found")
     }
 
     override fun findModuleById(moduleId: Int): Module {
@@ -62,10 +66,6 @@ class ModuleServiceImpl(
 
     override fun changeLockStatus(moduleId: Int): Module {
         val moduleToChange = moduleRepository.findById(moduleId).get()
-        println("Test" + moduleToChange.id)
-        println("Test" + moduleToChange.name)
-        println("Test" + moduleToChange.id)
-        println("Test" + moduleToChange.locked)
         val newModule = moduleToChange.copy(locked = !moduleToChange.locked)
         moduleRepository.save(newModule)
         return newModule
