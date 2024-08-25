@@ -1,6 +1,6 @@
 package apariciomeli.tutorial.kotlinTutorial.mapper
 
-import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.user.EndUserDTO
 import apariciomeli.tutorial.kotlinTutorial.model.EndUser
 import org.springframework.stereotype.Service
 import apariciomeli.tutorial.kotlinTutorial.model.Role

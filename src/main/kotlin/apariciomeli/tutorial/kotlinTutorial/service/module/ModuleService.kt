@@ -1,24 +1,28 @@
 package apariciomeli.tutorial.kotlinTutorial.service.module
 
-import apariciomeli.tutorial.kotlinTutorial.DTO.ModuleDTO
-import apariciomeli.tutorial.kotlinTutorial.DTO.ModuleUsersReadDTO
-import apariciomeli.tutorial.kotlinTutorial.model.Course
-import apariciomeli.tutorial.kotlinTutorial.model.EndUser
+import apariciomeli.tutorial.kotlinTutorial.dto.module.ModuleDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.module.ModuleUsersReadDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.setgroup.GroupModulesDTO
 import apariciomeli.tutorial.kotlinTutorial.model.Module
 
-
 interface ModuleService {
-    fun createModule(moduleDTO: ModuleDTO): Module
-    fun getModulesByCourseId(courseId: Int): List<Module>
+  fun createModule(moduleDTO: ModuleDTO): Module
 
-    fun getModulesByAvailabilityAndCourseId(courseId: Int): List<Module>
-    fun getModulesContentByModuleId(moduleId: Int): Module
+  fun getModulesByCourseId(courseId: Int): List<Module>
 
-    fun findModuleById(moduleId: Int): Module
+  fun getAvailableModulesByCourseId(courseId: Int): List<Module>
 
-    fun getUsersReadModule(): List<ModuleUsersReadDTO>
+  fun getModulesByGroupId(groupId: Int): List<Module>
 
-    fun changeLockStatus(moduleId: Int): Module
+  fun getAvailableModulesByGroupId(groupId: Int): List<Module>
 
-//    fun getModulesDataByModuleId(moduleId:Int): List<ModuleData>
+  fun getModulesByAvailabilityAndCourseId(courseId: Int): List<GroupModulesDTO>
+
+  fun getModulesContentByModuleId(moduleId: Int): Module
+
+  fun findModuleById(moduleId: Int): Module
+
+  fun getUsersReadModule(): List<ModuleUsersReadDTO>
+
+  fun changeLockStatus(moduleId: Int): Module
 }

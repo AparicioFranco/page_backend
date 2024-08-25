@@ -1,12 +1,11 @@
 package apariciomeli.tutorial.kotlinTutorial.controller
 
-import apariciomeli.tutorial.kotlinTutorial.DTO.CourseDTO
-import apariciomeli.tutorial.kotlinTutorial.DTO.CourseSendDTO
-import apariciomeli.tutorial.kotlinTutorial.DTO.EndUserAdminViewDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.course.CourseDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.course.CourseSendDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.user.EndUserAdminViewDTO
 import apariciomeli.tutorial.kotlinTutorial.config.JwtService
 import apariciomeli.tutorial.kotlinTutorial.model.Course
 import apariciomeli.tutorial.kotlinTutorial.service.course.CourseService
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @CrossOrigin("*")

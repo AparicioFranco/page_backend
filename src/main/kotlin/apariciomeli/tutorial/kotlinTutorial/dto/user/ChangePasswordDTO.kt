@@ -1,4 +1,4 @@
-package apariciomeli.tutorial.kotlinTutorial.DTO
+package apariciomeli.tutorial.kotlinTutorial.dto.user
 
 class ChangePasswordDTO (
     var oldPassword: String,

@@ -1,4 +1,4 @@
-package apariciomeli.tutorial.kotlinTutorial.DTO
+package apariciomeli.tutorial.kotlinTutorial.dto.user
 
 import apariciomeli.tutorial.kotlinTutorial.model.Course
 import apariciomeli.tutorial.kotlinTutorial.model.Module

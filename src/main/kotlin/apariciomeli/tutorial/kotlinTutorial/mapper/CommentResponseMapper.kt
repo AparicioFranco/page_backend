@@ -1,6 +1,8 @@
 package apariciomeli.tutorial.kotlinTutorial.mapper
 
-import apariciomeli.tutorial.kotlinTutorial.DTO.*
+import apariciomeli.tutorial.kotlinTutorial.dto.comment.CommentModule
+import apariciomeli.tutorial.kotlinTutorial.dto.comment.CommentResponseDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.comment.CommentUser
 import apariciomeli.tutorial.kotlinTutorial.model.Comment
 import apariciomeli.tutorial.kotlinTutorial.repo.EndUserRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.ModuleRepository

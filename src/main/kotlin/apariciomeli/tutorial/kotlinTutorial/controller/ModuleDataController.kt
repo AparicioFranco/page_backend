@@ -1,6 +1,6 @@
 package apariciomeli.tutorial.kotlinTutorial.controller
 
-import apariciomeli.tutorial.kotlinTutorial.DTO.ModuleDataDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.module.ModuleDataDTO
 import apariciomeli.tutorial.kotlinTutorial.model.ModuleData
 import apariciomeli.tutorial.kotlinTutorial.service.moduledata.ModuleDataService
 import org.springframework.web.bind.annotation.*

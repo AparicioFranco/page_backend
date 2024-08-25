@@ -14,7 +14,7 @@ data class Module (
     val question: String,
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
-    val course: Course,
+    val group: SetGroup,
     @ManyToMany(mappedBy = "modules")
     @JsonBackReference
     val users: MutableList<EndUser> = mutableListOf()

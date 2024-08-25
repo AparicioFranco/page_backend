@@ -1,6 +1,6 @@
 package apariciomeli.tutorial.kotlinTutorial.controller
 
-import apariciomeli.tutorial.kotlinTutorial.DTO.*
+import apariciomeli.tutorial.kotlinTutorial.dto.user.*
 import apariciomeli.tutorial.kotlinTutorial.model.Course
 import apariciomeli.tutorial.kotlinTutorial.model.EndUser
 import apariciomeli.tutorial.kotlinTutorial.model.Module
@@ -46,7 +46,7 @@ class EndUserController(
     }
 
     @PostMapping("/public/logIn")
-    fun checkUserInformation(@RequestBody userDTO: EndUserLogInDTO ): EndUserCheckedDTO {
+    fun checkUserInformation(@RequestBody userDTO: EndUserLogInDTO): EndUserCheckedDTO {
         return endUserService.checkUser(userDTO)
     }
 
