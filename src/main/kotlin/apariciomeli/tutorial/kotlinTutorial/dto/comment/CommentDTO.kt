@@ -1,4 +1,4 @@
-package apariciomeli.tutorial.kotlinTutorial.DTO
+package apariciomeli.tutorial.kotlinTutorial.dto.comment
 
 class CommentDTO (
     var id: Int,

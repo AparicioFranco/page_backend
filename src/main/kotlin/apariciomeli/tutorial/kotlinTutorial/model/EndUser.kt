@@ -15,7 +15,6 @@ data class EndUser (
     val name: String,
     @Column(unique = true)
     val email: String,
-//    val role: String,
     @Enumerated(EnumType.STRING)
     val role: Role,
     val passw: String,

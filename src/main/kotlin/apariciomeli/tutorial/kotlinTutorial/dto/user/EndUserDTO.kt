@@ -1,7 +1,6 @@
-package apariciomeli.tutorial.kotlinTutorial.DTO
+package apariciomeli.tutorial.kotlinTutorial.dto.user
 
 import apariciomeli.tutorial.kotlinTutorial.model.Role
-import java.util.Date
 
 class EndUserDTO (
     var id: Int,

@@ -1,6 +1,4 @@
-package apariciomeli.tutorial.kotlinTutorial.DTO
-
-import java.util.Date
+package apariciomeli.tutorial.kotlinTutorial.dto.user
 
 class EndUserCheckedDTO (
     var id: Int,

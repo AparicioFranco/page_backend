@@ -1,6 +1,8 @@
 package apariciomeli.tutorial.kotlinTutorial.mapper
 
-import apariciomeli.tutorial.kotlinTutorial.DTO.*
+import apariciomeli.tutorial.kotlinTutorial.dto.comment.CommentModule
+import apariciomeli.tutorial.kotlinTutorial.dto.comment.CommentResponseDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.comment.CommentUser
 import apariciomeli.tutorial.kotlinTutorial.model.Comment
 import apariciomeli.tutorial.kotlinTutorial.repo.EndUserRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.ModuleRepository
@@ -14,7 +16,7 @@ class CommentResponseMapper(
     override fun fromEntity(entity: Comment): CommentResponseDTO {
         return CommentResponseDTO(
             id = entity.id,
-            user = CommentUser(entity.user.id, entity.user.name),
+            user = CommentUser(entity.user.id, email = entity.user.email),
             module = CommentModule(entity.module.id, entity.module.name),
             commentData = entity.commentData
         )

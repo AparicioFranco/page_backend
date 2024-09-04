@@ -1,11 +1,9 @@
 package apariciomeli.tutorial.kotlinTutorial.mapper
 
-import apariciomeli.tutorial.kotlinTutorial.DTO.CourseDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.course.CourseDTO
 import apariciomeli.tutorial.kotlinTutorial.model.Course
 import org.springframework.stereotype.Service
-import apariciomeli.tutorial.kotlinTutorial.model.Module
 import java.time.LocalDate
-import java.util.Date
 
 @Service
 class CourseMapper: Mapper<CourseDTO, Course> {

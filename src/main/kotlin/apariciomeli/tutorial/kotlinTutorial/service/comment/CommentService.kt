@@ -1,20 +1,21 @@
 package apariciomeli.tutorial.kotlinTutorial.service.comment
 
-import apariciomeli.tutorial.kotlinTutorial.DTO.CommentDTO
-import apariciomeli.tutorial.kotlinTutorial.DTO.CommentResponseDTO
-import apariciomeli.tutorial.kotlinTutorial.DTO.GetCommentDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.comment.*
 import apariciomeli.tutorial.kotlinTutorial.model.Comment
 
 interface CommentService {
+  fun createComment(bearerToken: String, commentDTO: CommentDTO): ReturnCommentDTO
 
-    fun createComment(commentDTO: CommentDTO): Comment
+  fun getCommentsByUserId(userId: Int): List<GetCommentDTO>
 
-    fun getCommentsByUserId(userId: Int): List<GetCommentDTO>
+  fun getCommentsByModuleId(moduleId: Int): List<GetCommentDTO>
 
-    fun getCommentsByModuleId(moduleId: Int): List<GetCommentDTO>
+  fun getCommentByUserIdAndModuleId(moduleId: Int): GetCommentDTO
 
-    fun getCommentByUserIdAndModuleId(moduleId: Int): GetCommentDTO
+  fun getAllCommentsByCourseId(courseId: Int): List<GetCommentAdminDTO>
 
-    fun getAllComments(): List<CommentResponseDTO>
+  fun getCommentsByModuleIdAdmin(moduleId: Int): List<GetCommentAdminDTO>
+
+  fun getAllComments(): List<CommentResponseDTO>
 
 }
