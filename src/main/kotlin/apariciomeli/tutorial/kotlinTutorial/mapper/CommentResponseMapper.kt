@@ -16,7 +16,7 @@ class CommentResponseMapper(
     override fun fromEntity(entity: Comment): CommentResponseDTO {
         return CommentResponseDTO(
             id = entity.id,
-            user = CommentUser(entity.user.id, entity.user.name),
+            user = CommentUser(entity.user.id, email = entity.user.email),
             module = CommentModule(entity.module.id, entity.module.name),
             commentData = entity.commentData
         )

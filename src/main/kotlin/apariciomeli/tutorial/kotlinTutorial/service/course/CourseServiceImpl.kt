@@ -3,7 +3,8 @@ package apariciomeli.tutorial.kotlinTutorial.service.course
 import apariciomeli.tutorial.kotlinTutorial.dto.course.CourseDTO
 import apariciomeli.tutorial.kotlinTutorial.dto.course.CourseSendDTO
 import apariciomeli.tutorial.kotlinTutorial.dto.course.CustomDateDTO
-import apariciomeli.tutorial.kotlinTutorial.dto.user.EndUserAdminViewDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.comment.EndUserAdminViewDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.course.ReturnCourseDTO
 import apariciomeli.tutorial.kotlinTutorial.mapper.CourseMapper
 import apariciomeli.tutorial.kotlinTutorial.mapper.EndUserAdminViewMapper
 import apariciomeli.tutorial.kotlinTutorial.model.Course
@@ -17,9 +18,10 @@ class CourseServiceImpl(
     private val endUserAdminViewMapper: EndUserAdminViewMapper
 ) : CourseService {
 
-  override fun createCourse(courseDTO: CourseDTO): Course {
+  override fun createCourse(courseDTO: CourseDTO): ReturnCourseDTO {
     val course = courseMapper.toEntity(courseDTO)
-    return courseRepository.save(course)
+      val savedCourse = courseRepository.save(course)
+    return ReturnCourseDTO(id = savedCourse.id, name = savedCourse.name)
   }
 
   override fun findCourseById(courseId: Int): CourseSendDTO {

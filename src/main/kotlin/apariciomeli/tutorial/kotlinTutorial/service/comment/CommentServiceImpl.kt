@@ -1,8 +1,7 @@
 package apariciomeli.tutorial.kotlinTutorial.service.comment
 
-import apariciomeli.tutorial.kotlinTutorial.dto.comment.CommentDTO
-import apariciomeli.tutorial.kotlinTutorial.dto.comment.CommentResponseDTO
-import apariciomeli.tutorial.kotlinTutorial.dto.comment.GetCommentDTO
+import apariciomeli.tutorial.kotlinTutorial.config.JwtService
+import apariciomeli.tutorial.kotlinTutorial.dto.comment.*
 import apariciomeli.tutorial.kotlinTutorial.mapper.CommentMapper
 import apariciomeli.tutorial.kotlinTutorial.mapper.CommentResponseMapper
 import apariciomeli.tutorial.kotlinTutorial.mapper.EndUserAdminViewMapper
@@ -10,6 +9,7 @@ import apariciomeli.tutorial.kotlinTutorial.model.Comment
 import apariciomeli.tutorial.kotlinTutorial.repo.CommentRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.EndUserRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.ModuleRepository
+import apariciomeli.tutorial.kotlinTutorial.service.module.ModuleServiceImpl
 import org.springframework.stereotype.Service
 
 @Service
@@ -20,10 +20,21 @@ class CommentServiceImpl(
     private val moduleRepository: ModuleRepository,
     private val commentResponseMapper: CommentResponseMapper,
     private val endUserAdminViewMapper: EndUserAdminViewMapper,
+    private val jwtService: JwtService,
+    private val moduleServiceImpl: ModuleServiceImpl,
 ) : CommentService {
-  override fun createComment(commentDTO: CommentDTO): Comment {
-    val comment = commentMapper.toEntity(commentDTO)
-    return commentRepository.save(comment)
+    override fun createComment(bearerToken:String, commentDTO: CommentDTO): ReturnCommentDTO {
+    val email = jwtService.extractUsernameFromToken(token = bearerToken)
+    val userOptional = endUserRepository.findEndUserByEmailIgnoreCase(email)
+        if (userOptional.isPresent) {
+            val userPresent = userOptional.get()
+            commentDTO.userId = userPresent.id
+            val comment = commentMapper.toEntity(commentDTO)
+            val savedComment = commentRepository.save(comment)
+            return ReturnCommentDTO(id = savedComment.id, comment = savedComment.commentData)
+        }
+//    val comment = commentMapper.toEntity(commentDTO)
+    throw Exception("User not found")
   }
 
   override fun getCommentsByUserId(userId: Int): List<GetCommentDTO> {
@@ -92,7 +103,36 @@ class CommentServiceImpl(
     throw Exception("User not found.")
   }
 
-  override fun getAllComments(): List<CommentResponseDTO> {
+    override fun getAllCommentsByCourseId(courseId: Int): List<GetCommentAdminDTO> {
+        val modules = moduleServiceImpl.getAvailableModulesByCourseId(courseId)
+        val commentsList = mutableListOf<GetCommentAdminDTO>()
+        modules.forEach {
+            commentsList.addAll(getCommentsByModuleIdAdmin(it.id).sortedBy { secondIt -> secondIt.module.id })
+        }
+        return commentsList.sortedBy { it.module.id }
+    }
+
+    override fun getCommentsByModuleIdAdmin(moduleId: Int): List<GetCommentAdminDTO> {
+        val commentsModuleOptional = moduleRepository.findById(moduleId)
+        val getCommentListByModule = mutableListOf<GetCommentAdminDTO>()
+        if (commentsModuleOptional.isPresent) {
+            val commentsModule = commentsModuleOptional.get()
+            commentRepository
+                .getCommentsByModule(commentsModule)
+                .sortedBy { it.id }
+                .forEach {
+                    getCommentListByModule.add(
+                        GetCommentAdminDTO(
+                            id = it.id,
+                            user = endUserAdminViewMapper.fromEntity(it.user),
+                            module = ModuleAdminViewDTO(id = it.module.id, name = it.module.name),
+                            commentData = it.commentData))
+                }
+        }
+        return getCommentListByModule
+    }
+
+    override fun getAllComments(): List<CommentResponseDTO> {
     val commentListParsed = commentRepository.findAll()
     val returnList = mutableListOf<CommentResponseDTO>()
     commentListParsed

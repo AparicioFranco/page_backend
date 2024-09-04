@@ -1,6 +1,8 @@
 package apariciomeli.tutorial.kotlinTutorial.service.course
 
 import apariciomeli.tutorial.kotlinTutorial.config.JwtService
+import apariciomeli.tutorial.kotlinTutorial.controller.auth.AuthenticationResponse
+import apariciomeli.tutorial.kotlinTutorial.dto.comment.EndUserAdminViewDTO
 import apariciomeli.tutorial.kotlinTutorial.dto.user.*
 import apariciomeli.tutorial.kotlinTutorial.mapper.EndUserAdminViewMapper
 import apariciomeli.tutorial.kotlinTutorial.mapper.EndUserMapper
@@ -14,6 +16,9 @@ import apariciomeli.tutorial.kotlinTutorial.repo.ModuleRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.SetGroupRepository
 import apariciomeli.tutorial.kotlinTutorial.service.enduser.EmailSenderService
 import apariciomeli.tutorial.kotlinTutorial.service.module.ModuleServiceImpl
+import org.apache.coyote.Response
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.streams.asSequence
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -42,11 +47,12 @@ class EndUserServiceImpl(
         .joinToString("")
   }
 
-  override fun createUser(endUserDTO: EndUserDTO): EndUser {
+  override fun createUser(endUserDTO: EndUserDTO): ReturnEndUserDTO {
     endUserDTO.password = passwordEncoder.encode(endUserDTO.password)
     endUserDTO.role = Role.USER
     val user = endUserMapper.toEntity(endUserDTO)
-    return endUserRepository.save(user)
+      val savedUser = endUserRepository.save(user)
+      return ReturnEndUserDTO(id = savedUser.id, email = savedUser.email)
   }
 
   override fun findAllUsers(): List<EndUserAdminViewDTO> {
@@ -57,7 +63,22 @@ class EndUserServiceImpl(
     return endUserAdminViewList
   }
 
-  override fun findUserById(userId: Int): GetUserByIdDTO {
+    override fun getUsersByCourseId(courseId: Int): List<EndUserAdminViewDTO> {
+        val courseOptional = courseRepository.findById(courseId)
+        if (courseOptional.isPresent) {
+            val coursePresent = courseOptional.get()
+            val endUserAdminViewList = mutableListOf<EndUserAdminViewDTO>()
+            endUserRepository
+                .findAllByCoursesContaining(coursePresent)
+                .forEach {
+                    endUserAdminViewList.add(endUserAdminViewMapper.fromEntity(it))
+                }
+            return endUserAdminViewList.sortedBy { it.id }
+        }
+        throw Exception("Course not found")
+    }
+
+    override fun findUserById(userId: Int): GetUserByIdDTO {
     val userOptional = endUserRepository.findById(userId)
     if (userOptional.isPresent) {
       val userPresent = userOptional.get()
@@ -72,14 +93,15 @@ class EndUserServiceImpl(
     throw Exception("User not found")
   }
 
-  override fun addUserToCourse(userId: Int, courseId: Int): EndUser {
+  override fun addUserToCourse(userId: Int, courseId: Int): ReturnEndUserDTO {
     val userOptional = endUserRepository.findById(userId)
     val courseOptional = courseRepository.findById(courseId)
     if (userOptional.isPresent && courseOptional.isPresent) {
       val userPresent = userOptional.get()
       val coursePresent = courseOptional.get()
       userPresent.courses.add(coursePresent)
-      return endUserRepository.save(userPresent)
+        val savedUser = endUserRepository.save(userPresent)
+        return ReturnEndUserDTO(id = savedUser.id, email = savedUser.email)
     }
     throw Exception("User not found")
   }
@@ -108,13 +130,14 @@ class EndUserServiceImpl(
     throw Exception("Username not found")
   }
 
-  override fun changePassword(bearerToken: String, passwordDTO: ChangePasswordDTO): EndUser {
+  override fun changePassword(bearerToken: String, passwordDTO: ChangePasswordDTO): ReturnEndUserDTO {
     val userEmail = jwtService.extractUsernameFromToken(bearerToken)
     val user = endUserRepository.findEndUserByEmailIgnoreCase(userEmail)
     if (user.isPresent) {
       if (passwordEncoder.matches(passwordDTO.oldPassword, user.get().password)) {
         val finalUser = user.get().copy(passw = passwordEncoder.encode(passwordDTO.newPassword))
-        return endUserRepository.save(finalUser)
+          val savedUser = endUserRepository.save(finalUser)
+          return ReturnEndUserDTO(id = savedUser.id, email = savedUser.email)
       }
       throw Exception("Passwords don't match")
     }
@@ -175,7 +198,7 @@ class EndUserServiceImpl(
     throw Exception("User not found.")
   }
 
-  override fun resetUserPassword(userEmail: UserEmailDTO): EndUser {
+  override fun resetUserPassword(userEmail: UserEmailDTO): ReturnEndUserDTO {
     val email = userEmail.userEmail
     val userOptional = endUserRepository.findEndUserByEmailIgnoreCase(email)
     if (userOptional.isPresent) {
@@ -183,7 +206,8 @@ class EndUserServiceImpl(
       val newPassword = generateRandomPassword()
       val finalUser = user.copy(passw = passwordEncoder.encode(newPassword))
       emailSenderService.sendEMail(newPassword, email)
-      return endUserRepository.save(finalUser)
+        val savedUser = endUserRepository.save(finalUser)
+      return ReturnEndUserDTO(id = savedUser.id, email= savedUser.email)
     }
     throw Exception("User not found.")
   }
@@ -191,4 +215,20 @@ class EndUserServiceImpl(
   override fun sendEmail(userEmail: UserEmailDTO) {
     emailSenderService.sendEMail("apa1234", userEmail.userEmail)
   }
+
+    override fun checkUserInCourse(token: String, courseId: Int): ResponseEntity<Int> {
+        val userEmail = jwtService.extractUsernameFromToken(token)
+        val courseOptional = courseRepository.findById(courseId)
+        val userOptional = endUserRepository.findEndUserByEmailIgnoreCase(userEmail)
+        if (courseOptional.isPresent && userOptional.isPresent) {
+            val coursePresent = courseOptional.get()
+            val userPresent = userOptional.get()
+            return if (userPresent.courses.contains(coursePresent)){
+                ResponseEntity.ok(1)
+            }else{
+                ResponseEntity.badRequest().build()
+            }
+        }
+        throw Exception("User or course not found.")
+    }
 }

@@ -3,6 +3,7 @@ package apariciomeli.tutorial.kotlinTutorial.controller
 import apariciomeli.tutorial.kotlinTutorial.controller.auth.AuthenticationRequest
 import apariciomeli.tutorial.kotlinTutorial.controller.auth.AuthenticationResponse
 import apariciomeli.tutorial.kotlinTutorial.controller.auth.RegisterRequest
+import apariciomeli.tutorial.kotlinTutorial.dto.user.ReturnEndUserDTO
 import apariciomeli.tutorial.kotlinTutorial.dto.user.UserEmailDTO
 import apariciomeli.tutorial.kotlinTutorial.model.EndUser
 import apariciomeli.tutorial.kotlinTutorial.service.auth.AuthService
@@ -33,7 +34,7 @@ class AuthenticationController(
   }
 
   @PostMapping("/public/reset/password")
-  fun resetPassword(@RequestBody userEmail: UserEmailDTO): EndUser {
+  fun resetPassword(@RequestBody userEmail: UserEmailDTO): ReturnEndUserDTO {
     return endUserService.resetUserPassword(userEmail)
   }
 }

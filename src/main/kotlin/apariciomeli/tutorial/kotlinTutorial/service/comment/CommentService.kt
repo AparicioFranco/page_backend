@@ -1,12 +1,10 @@
 package apariciomeli.tutorial.kotlinTutorial.service.comment
 
-import apariciomeli.tutorial.kotlinTutorial.dto.comment.CommentDTO
-import apariciomeli.tutorial.kotlinTutorial.dto.comment.CommentResponseDTO
-import apariciomeli.tutorial.kotlinTutorial.dto.comment.GetCommentDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.comment.*
 import apariciomeli.tutorial.kotlinTutorial.model.Comment
 
 interface CommentService {
-  fun createComment(commentDTO: CommentDTO): Comment
+  fun createComment(bearerToken: String, commentDTO: CommentDTO): ReturnCommentDTO
 
   fun getCommentsByUserId(userId: Int): List<GetCommentDTO>
 
@@ -14,5 +12,10 @@ interface CommentService {
 
   fun getCommentByUserIdAndModuleId(moduleId: Int): GetCommentDTO
 
+  fun getAllCommentsByCourseId(courseId: Int): List<GetCommentAdminDTO>
+
+  fun getCommentsByModuleIdAdmin(moduleId: Int): List<GetCommentAdminDTO>
+
   fun getAllComments(): List<CommentResponseDTO>
+
 }

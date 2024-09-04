@@ -2,8 +2,9 @@ package apariciomeli.tutorial.kotlinTutorial.controller
 
 import apariciomeli.tutorial.kotlinTutorial.dto.course.CourseDTO
 import apariciomeli.tutorial.kotlinTutorial.dto.course.CourseSendDTO
-import apariciomeli.tutorial.kotlinTutorial.dto.user.EndUserAdminViewDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.comment.EndUserAdminViewDTO
 import apariciomeli.tutorial.kotlinTutorial.config.JwtService
+import apariciomeli.tutorial.kotlinTutorial.dto.course.ReturnCourseDTO
 import apariciomeli.tutorial.kotlinTutorial.model.Course
 import apariciomeli.tutorial.kotlinTutorial.service.course.CourseService
 import org.springframework.web.bind.annotation.*
@@ -17,7 +18,7 @@ class CourseController(
 ) {
 
     @PostMapping("/private/add")
-    fun createCourse(@RequestBody courseDTO: CourseDTO): Course {
+    fun createCourse(@RequestBody courseDTO: CourseDTO): ReturnCourseDTO {
         return courseService.createCourse(courseDTO)
     }
 

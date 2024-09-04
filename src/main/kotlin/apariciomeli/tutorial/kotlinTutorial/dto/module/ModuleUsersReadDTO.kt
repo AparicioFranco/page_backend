@@ -1,6 +1,6 @@
 package apariciomeli.tutorial.kotlinTutorial.dto.module
 
-import apariciomeli.tutorial.kotlinTutorial.dto.user.EndUserAdminViewDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.comment.EndUserAdminViewDTO
 
 class ModuleUsersReadDTO (
     val id: Int,

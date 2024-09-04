@@ -4,7 +4,7 @@ import apariciomeli.tutorial.kotlinTutorial.dto.module.ModuleDTO
 import apariciomeli.tutorial.kotlinTutorial.dto.module.ModuleUsersReadDTO
 import apariciomeli.tutorial.kotlinTutorial.dto.setgroup.GroupModulesDTO
 import apariciomeli.tutorial.kotlinTutorial.dto.setgroup.MinimalModuleDTO
-import apariciomeli.tutorial.kotlinTutorial.dto.user.EndUserAdminViewDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.comment.EndUserAdminViewDTO
 import apariciomeli.tutorial.kotlinTutorial.mapper.EndUserAdminViewMapper
 import apariciomeli.tutorial.kotlinTutorial.mapper.ModuleMapper
 import apariciomeli.tutorial.kotlinTutorial.model.Module

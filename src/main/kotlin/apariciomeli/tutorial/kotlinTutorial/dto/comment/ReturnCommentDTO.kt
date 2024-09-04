@@ -1,6 +1,6 @@
 package apariciomeli.tutorial.kotlinTutorial.dto.comment
 
-class CommentUser(
+class ReturnCommentDTO(
     val id: Int,
-    val email: String
+    val comment: String
 )

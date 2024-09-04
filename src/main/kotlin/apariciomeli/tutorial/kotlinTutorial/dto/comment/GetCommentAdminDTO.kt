@@ -1,8 +1,8 @@
 package apariciomeli.tutorial.kotlinTutorial.dto.comment
 
-class GetCommentDTO (
+class GetCommentAdminDTO (
     var id: Int,
     var user: EndUserAdminViewDTO,
-    var moduleId: Int,
+    var module: ModuleAdminViewDTO,
     var commentData: String
 )
