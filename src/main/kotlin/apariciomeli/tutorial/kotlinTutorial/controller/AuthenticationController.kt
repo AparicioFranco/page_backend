@@ -3,6 +3,8 @@ package apariciomeli.tutorial.kotlinTutorial.controller
 import apariciomeli.tutorial.kotlinTutorial.controller.auth.AuthenticationRequest
 import apariciomeli.tutorial.kotlinTutorial.controller.auth.AuthenticationResponse
 import apariciomeli.tutorial.kotlinTutorial.controller.auth.RegisterRequest
+import apariciomeli.tutorial.kotlinTutorial.dto.user.EndUserDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.user.RegisterEndUserDTO
 import apariciomeli.tutorial.kotlinTutorial.dto.user.ReturnEndUserDTO
 import apariciomeli.tutorial.kotlinTutorial.dto.user.UserEmailDTO
 import apariciomeli.tutorial.kotlinTutorial.model.EndUser
@@ -22,8 +24,8 @@ class AuthenticationController(
 ) {
 
   @PostMapping("/private/register")
-  fun register(@RequestBody request: RegisterRequest): ResponseEntity<AuthenticationResponse> {
-    return ResponseEntity.ok(authService.register(request))
+  fun register(@RequestBody endUserDTO: EndUserDTO): ResponseEntity<AuthenticationResponse> {
+    return ResponseEntity.ok(authService.register(endUserDTO))
   }
 
   @PostMapping("/public/authenticate")

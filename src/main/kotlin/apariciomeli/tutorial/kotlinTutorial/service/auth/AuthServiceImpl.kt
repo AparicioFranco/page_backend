@@ -5,7 +5,9 @@ import apariciomeli.tutorial.kotlinTutorial.controller.auth.AuthenticationReques
 import apariciomeli.tutorial.kotlinTutorial.controller.auth.AuthenticationResponse
 import apariciomeli.tutorial.kotlinTutorial.controller.auth.RegisterRequest
 import apariciomeli.tutorial.kotlinTutorial.dto.user.EndUserDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.user.RegisterEndUserDTO
 import apariciomeli.tutorial.kotlinTutorial.mapper.EndUserMapper
+import apariciomeli.tutorial.kotlinTutorial.model.EndUser
 import apariciomeli.tutorial.kotlinTutorial.model.Role
 import apariciomeli.tutorial.kotlinTutorial.repo.EndUserRepository
 import apariciomeli.tutorial.kotlinTutorial.service.course.EndUserService
@@ -24,21 +26,34 @@ class AuthServiceImpl(
     private val authenticationManager: AuthenticationManager
 ) : AuthService {
 
-  override fun register(registerRequest: RegisterRequest): AuthenticationResponse {
-    val endUserDTORegistration =
-        EndUserDTO(
-            name = registerRequest.name,
-            email = registerRequest.email,
-            password = passwordEncoder.encode(registerRequest.password),
-            role = Role.USER,
-            id = 1)
-    val endUserFinal = endUserMapper.toEntity(endUserDTORegistration)
-    endUserRepository.save(endUserFinal)
-    val jwtToken = jwtService.generateToken(endUserFinal)
-    return AuthenticationResponse(jwtToken, endUserFinal.role.name)
-  }
+//  override fun register(registerRequest: RegisterRequest): AuthenticationResponse {
+//    val endUserDTORegistration =
+//        RegisterEndUserDTO(
+//            email = registerRequest.email,
+//            name = "Usuario",
+//            password = passwordEncoder.encode(registerRequest.password),
+//            role = Role.USER)
+//    val endUserFinal = endUserMapper.toEntity(endUserDTORegistration)
+//    endUserRepository.save(endUserFinal)
+//    val jwtToken = jwtService.generateToken(endUserFinal)
+//    return AuthenticationResponse(jwtToken, endUserFinal.role.name)
+//  }
 
-  override fun authenticate(authenticationRequest: AuthenticationRequest): AuthenticationResponse {
+    override fun register(endUserDTO: EndUserDTO): AuthenticationResponse {
+        val email = endUserDTO.email
+        val endUserOptional = endUserRepository.findEndUserByEmailIgnoreCase(email)
+        if (!endUserOptional.isPresent){
+            println("Entered")
+            val endUserDTORegistration = endUserMapper.toEntity(endUserDTO)
+            endUserRepository.save(endUserDTORegistration)
+            val jwtToken = jwtService.generateToken(endUserDTORegistration)
+            return AuthenticationResponse(jwtToken, endUserDTORegistration.role.name)
+        }
+        println("Not entered")
+        throw Exception("User is present.")
+    }
+
+    override fun authenticate(authenticationRequest: AuthenticationRequest): AuthenticationResponse {
     authenticationManager.authenticate(
         UsernamePasswordAuthenticationToken(
             authenticationRequest.email, authenticationRequest.password))

@@ -49,7 +49,7 @@ class EndUserServiceImpl(
 
   override fun createUser(endUserDTO: EndUserDTO): ReturnEndUserDTO {
     endUserDTO.password = passwordEncoder.encode(endUserDTO.password)
-    endUserDTO.role = Role.USER
+//    endUserDTO.role = Role.USER
     val user = endUserMapper.toEntity(endUserDTO)
       val savedUser = endUserRepository.save(user)
       return ReturnEndUserDTO(id = savedUser.id, email = savedUser.email)
