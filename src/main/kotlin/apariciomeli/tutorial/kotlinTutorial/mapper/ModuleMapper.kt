@@ -2,9 +2,7 @@ package apariciomeli.tutorial.kotlinTutorial.mapper
 
 import apariciomeli.tutorial.kotlinTutorial.dto.module.ModuleDTO
 import apariciomeli.tutorial.kotlinTutorial.model.Module
-import apariciomeli.tutorial.kotlinTutorial.repo.CourseRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.SetGroupRepository
-import apariciomeli.tutorial.kotlinTutorial.service.course.CourseServiceImpl
 import org.springframework.stereotype.Service
 
 @Service
@@ -27,7 +25,7 @@ class ModuleMapper(
             id = domain.id,
             name = domain.name,
             locked = true,
-            group = setGroupRepository.findById(domain.id).get(),
+            group = setGroupRepository.findById(domain.setGroupId).get(),
             question = domain.question
         )
     }

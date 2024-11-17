@@ -1,5 +1,6 @@
 package apariciomeli.tutorial.kotlinTutorial.controller
 
+import apariciomeli.tutorial.kotlinTutorial.dto.setgroup.GroupDTO
 import apariciomeli.tutorial.kotlinTutorial.model.SetGroup
 import apariciomeli.tutorial.kotlinTutorial.service.moduledata.SetGroupService
 import org.springframework.web.bind.annotation.*
@@ -10,11 +11,11 @@ import org.springframework.web.bind.annotation.*
 class SetGroupController(
     private val setGroupService: SetGroupService,
 ) {
-//    @PostMapping("/private/add")
-//    fun createModule(@RequestBody moduleDTO: ModuleDTO): Module {
-//        return moduleService.createModule(moduleDTO)
-//    }
-//
+    @PostMapping("/private/add")
+    fun createGroup(@RequestBody groupDTO: GroupDTO): GroupDTO {
+        return setGroupService.createGroup(groupDTO)
+    }
+
     @GetMapping("/private/course/{courseId}")
     fun getGroupsByCourseId(@PathVariable courseId: Int): List<SetGroup> {
         return setGroupService.getGroupsByCourseId(courseId).sortedBy { it.id }
