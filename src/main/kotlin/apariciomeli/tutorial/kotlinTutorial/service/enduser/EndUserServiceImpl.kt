@@ -57,14 +57,14 @@ class EndUserServiceImpl(
 
     override fun createUserFromList(listOfUsers: List<String>): Int {
         for (email in listOfUsers){
-            println(email)
             if (endUserRepository.findEndUserByEmailIgnoreCase(email).isEmpty) {
                 val password = generateRandomPassword()
                 val firstUser = CreateEndUserDTO(id = 0, email = email, password = password)
+                emailSenderService.sendCreationEmail(password, email)
                 endUserRepository.save(createEndUserMapper.toEntity(firstUser))
             }
         }
-        return 1;
+        return 1
     }
 
   override fun findAllUsers(): List<EndUserAdminViewDTO> {
@@ -217,7 +217,7 @@ class EndUserServiceImpl(
       val user = userOptional.get()
       val newPassword = generateRandomPassword()
       val finalUser = user.copy(passw = passwordEncoder.encode(newPassword))
-      emailSenderService.sendEMail(newPassword, email)
+      emailSenderService.sendRecoverEmail(newPassword, email)
         val savedUser = endUserRepository.save(finalUser)
       return ReturnEndUserDTO(id = savedUser.id, email= savedUser.email)
     }
@@ -225,7 +225,7 @@ class EndUserServiceImpl(
   }
 
   override fun sendEmail(userEmail: UserEmailDTO) {
-    emailSenderService.sendEMail("apa1234", userEmail.userEmail)
+    emailSenderService.sendRecoverEmail("apa1234", userEmail.userEmail)
   }
 
     override fun checkUserInCourse(token: String, courseId: Int): ResponseEntity<Int> {
