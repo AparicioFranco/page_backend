@@ -6,17 +6,18 @@ import jakarta.persistence.*
 data class ModuleData (
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    val id:Int,
+    val id:Int? = null,
     @ManyToOne(fetch = FetchType.EAGER)
     val module: Module,
     val title: String,
     @Column(columnDefinition = "varchar(1000)")
-    val text: String,
-    val video: String,
+    val text: String? = null,
+    val video: String? = null,
     val audio: String,
-    val link: String,
-    var linkText: String,
-    val file: String
+    val link: String? = null,
+    var linkText: String? = null,
+    val file: String? = null,
+    val fileText: String? = null,
 ){
 
 }

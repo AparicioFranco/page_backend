@@ -19,10 +19,14 @@ class EndUserController(
     private val endUserService: EndUserService
 ) {
 
-
     @PostMapping("/private/new")
     fun createUser(@RequestBody endUserDTO: EndUserDTO): ReturnEndUserDTO {
         return endUserService.createUser(endUserDTO)
+    }
+
+    @PostMapping("/private/new-from-list")
+    fun createUserFromList(@RequestBody request: EmailListRequest): Int {
+        return endUserService.createUserFromList(request.emails)
     }
 
     @GetMapping("/private/check")

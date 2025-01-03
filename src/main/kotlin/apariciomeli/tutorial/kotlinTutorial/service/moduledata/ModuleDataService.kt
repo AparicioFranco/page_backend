@@ -1,10 +1,12 @@
 package apariciomeli.tutorial.kotlinTutorial.service.moduledata
 
 import apariciomeli.tutorial.kotlinTutorial.dto.module.ModuleDataDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.module.ModuleDataTestDTO
 import apariciomeli.tutorial.kotlinTutorial.model.ModuleData
+import org.springframework.web.multipart.MultipartFile
 
 interface ModuleDataService {
-  fun createModuleData(moduleDataDTO: ModuleDataDTO): ModuleData
+  fun createModuleData(moduleData:ModuleData): ModuleData
 
   fun getModulesDataByModuleId(moduleId: Int): List<ModuleData>
 
@@ -13,4 +15,8 @@ interface ModuleDataService {
   fun getModulesDataByCourseId(courseId: Int): List<List<ModuleData>>
 
   fun changeModuleData(moduleDataDTO: ModuleDataDTO): ModuleData
+
+  fun test(moduleDataTestDTO: ModuleDataTestDTO, file: MultipartFile)
+
+  fun uploadFile(file: MultipartFile, moduleDataTestDTO: ModuleDataTestDTO): ModuleData
 }
