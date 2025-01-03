@@ -4,6 +4,7 @@ import apariciomeli.tutorial.kotlinTutorial.dto.course.CourseDTO
 import apariciomeli.tutorial.kotlinTutorial.dto.course.CourseSendDTO
 import apariciomeli.tutorial.kotlinTutorial.dto.comment.EndUserAdminViewDTO
 import apariciomeli.tutorial.kotlinTutorial.dto.course.ReturnCourseDTO
+import apariciomeli.tutorial.kotlinTutorial.dto.user.EmailListRequest
 import apariciomeli.tutorial.kotlinTutorial.model.Course
 
 interface CourseService {
@@ -14,4 +15,6 @@ interface CourseService {
   fun findAllCourses(): List<Course>
 
   fun getUsersByCourseId(courseId: Int): List<EndUserAdminViewDTO>
+
+    fun addUsersToCourse(mails: List<String>, courseId: Int): Int
 }

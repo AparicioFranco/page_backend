@@ -14,12 +14,12 @@ class ModuleDataMapper(
             id = entity.id,
             moduleId = entity.module.id,
             title = entity.title,
-            text = entity.text,
-            video = entity.video,
+            text = entity.text.orEmpty(),
+            video = entity.video.orEmpty(),
             audio = entity.audio,
-            link = entity.link,
-            linkText = entity.linkText,
-            file = entity.file,
+            link = entity.link.orEmpty(),
+            linkText = entity.linkText.orEmpty(),
+            file = entity.file.orEmpty(),
         )
     }
 

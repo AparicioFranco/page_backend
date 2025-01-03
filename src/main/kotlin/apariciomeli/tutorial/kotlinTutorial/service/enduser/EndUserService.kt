@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity
 interface EndUserService {
   fun createUser(endUserDTO: EndUserDTO): ReturnEndUserDTO
 
+  fun createUserFromList(listOfUsers: List<String>): Int
+
   fun findAllUsers(): List<EndUserAdminViewDTO>
 
   fun getUsersByCourseId(courseId: Int): List<EndUserAdminViewDTO>

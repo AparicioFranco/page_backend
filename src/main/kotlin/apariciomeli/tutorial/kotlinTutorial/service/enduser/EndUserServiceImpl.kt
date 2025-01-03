@@ -1,23 +1,20 @@
 package apariciomeli.tutorial.kotlinTutorial.service.course
 
 import apariciomeli.tutorial.kotlinTutorial.config.JwtService
-import apariciomeli.tutorial.kotlinTutorial.controller.auth.AuthenticationResponse
 import apariciomeli.tutorial.kotlinTutorial.dto.comment.EndUserAdminViewDTO
 import apariciomeli.tutorial.kotlinTutorial.dto.user.*
+import apariciomeli.tutorial.kotlinTutorial.mapper.CreateEndUserMapper
 import apariciomeli.tutorial.kotlinTutorial.mapper.EndUserAdminViewMapper
 import apariciomeli.tutorial.kotlinTutorial.mapper.EndUserMapper
 import apariciomeli.tutorial.kotlinTutorial.model.Course
 import apariciomeli.tutorial.kotlinTutorial.model.EndUser
 import apariciomeli.tutorial.kotlinTutorial.model.Module
-import apariciomeli.tutorial.kotlinTutorial.model.Role
 import apariciomeli.tutorial.kotlinTutorial.repo.CourseRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.EndUserRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.ModuleRepository
 import apariciomeli.tutorial.kotlinTutorial.repo.SetGroupRepository
 import apariciomeli.tutorial.kotlinTutorial.service.enduser.EmailSenderService
 import apariciomeli.tutorial.kotlinTutorial.service.module.ModuleServiceImpl
-import org.apache.coyote.Response
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.streams.asSequence
@@ -35,6 +32,7 @@ class EndUserServiceImpl(
     private val moduleServiceImpl: ModuleServiceImpl,
     private val emailSenderService: EmailSenderService,
     private val setGroupRepository: SetGroupRepository,
+    private val createEndUserMapper: CreateEndUserMapper
 ) : EndUserService {
   private val passwordEncoder = BCryptPasswordEncoder()
   val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
@@ -48,12 +46,26 @@ class EndUserServiceImpl(
   }
 
   override fun createUser(endUserDTO: EndUserDTO): ReturnEndUserDTO {
-    endUserDTO.password = passwordEncoder.encode(endUserDTO.password)
-//    endUserDTO.role = Role.USER
-    val user = endUserMapper.toEntity(endUserDTO)
-      val savedUser = endUserRepository.save(user)
-      return ReturnEndUserDTO(id = savedUser.id, email = savedUser.email)
+      if (endUserRepository.findEndUserByEmailIgnoreCase(endUserDTO.email).isEmpty) {
+          endUserDTO.password = passwordEncoder.encode(endUserDTO.password)
+          val user = endUserMapper.toEntity(endUserDTO)
+          val savedUser = endUserRepository.save(user)
+          return ReturnEndUserDTO(id = savedUser.id, email = savedUser.email)
+      }
+      return ReturnEndUserDTO(id = 0, email = "Ya existe.")
   }
+
+    override fun createUserFromList(listOfUsers: List<String>): Int {
+        for (email in listOfUsers){
+            if (endUserRepository.findEndUserByEmailIgnoreCase(email).isEmpty) {
+                val password = generateRandomPassword()
+                val firstUser = CreateEndUserDTO(id = 0, email = email, password = password)
+                emailSenderService.sendCreationEmail(password, email)
+                endUserRepository.save(createEndUserMapper.toEntity(firstUser))
+            }
+        }
+        return 1
+    }
 
   override fun findAllUsers(): List<EndUserAdminViewDTO> {
     val endUserAdminViewList = mutableListOf<EndUserAdminViewDTO>()
@@ -205,7 +217,7 @@ class EndUserServiceImpl(
       val user = userOptional.get()
       val newPassword = generateRandomPassword()
       val finalUser = user.copy(passw = passwordEncoder.encode(newPassword))
-      emailSenderService.sendEMail(newPassword, email)
+      emailSenderService.sendRecoverEmail(newPassword, email)
         val savedUser = endUserRepository.save(finalUser)
       return ReturnEndUserDTO(id = savedUser.id, email= savedUser.email)
     }
@@ -213,7 +225,7 @@ class EndUserServiceImpl(
   }
 
   override fun sendEmail(userEmail: UserEmailDTO) {
-    emailSenderService.sendEMail("apa1234", userEmail.userEmail)
+    emailSenderService.sendRecoverEmail("apa1234", userEmail.userEmail)
   }
 
     override fun checkUserInCourse(token: String, courseId: Int): ResponseEntity<Int> {
