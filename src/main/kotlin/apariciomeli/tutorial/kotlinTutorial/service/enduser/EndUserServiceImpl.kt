@@ -67,7 +67,24 @@ class EndUserServiceImpl(
         return 1
     }
 
-  override fun findAllUsers(): List<EndUserAdminViewDTO> {
+    override fun createUserAndAddToCourse(email: String, courseId: Int): Int {
+        val course = courseRepository.findById(courseId).get();
+        val userOptional = endUserRepository.findEndUserByEmailIgnoreCase(email)
+        if (userOptional.isEmpty) {
+            val password = generateRandomPassword()
+            emailSenderService.sendCreationEmail(password, email)
+            val newUserData = createEndUserMapper.toEntity(CreateEndUserDTO(id = 0, email = email, password = password))
+            newUserData.courses.add(course)
+            endUserRepository.save(newUserData)
+        }else{
+            val oldUser = userOptional.get()
+            oldUser.courses.add(course)
+            endUserRepository.save(oldUser)
+        }
+        return 1;
+    }
+
+    override fun findAllUsers(): List<EndUserAdminViewDTO> {
     val endUserAdminViewList = mutableListOf<EndUserAdminViewDTO>()
     endUserRepository.findAll().forEach {
       endUserAdminViewList.add(endUserAdminViewMapper.fromEntity(it))
