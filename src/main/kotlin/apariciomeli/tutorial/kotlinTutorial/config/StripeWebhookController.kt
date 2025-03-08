@@ -52,7 +52,9 @@ class StripeWebhookController(
         println("Endpoint entered")
         println(payload)
         return try {
+            println("Try entered")
             val event = Webhook.constructEvent(payload, sigHeader, endpointSecret)
+            println(event)
 
 
             if (event.type == "checkout.session.completed") {
@@ -60,10 +62,14 @@ class StripeWebhookController(
 
                 val session = event.dataObjectDeserializer.getObject().orElse(null) as Session
                 val sessionPaymentLinkId = session.paymentLink // This contains the Payment Link ID
-                val email = session.customerEmail ?: return ResponseEntity.badRequest().body("No email found")
+                val email = session.customerDetails.email ?: return ResponseEntity.badRequest().body("No email found")
+
+                println("email: $email")
+                println("PaymentId: $sessionPaymentLinkId")
 
 
                 if (paymentLinkCourseMap.containsKey(sessionPaymentLinkId)) {
+                    println("User is being created.")
                     endUserServiceImpl.createUserAndAddToCourse(email, paymentLinkCourseMap.getOrDefault(sessionPaymentLinkId, -1))
                     return ResponseEntity.ok("User created for specific payment link")
                 } else {
