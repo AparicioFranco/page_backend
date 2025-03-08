@@ -68,7 +68,7 @@ class EndUserServiceImpl(
     }
 
     override fun createUserAndAddToCourse(email: String, courseId: Int): Int {
-        val course = courseRepository.findById(courseId).get();
+        val course = courseRepository.findById(courseId).get()
         val userOptional = endUserRepository.findEndUserByEmailIgnoreCase(email)
         if (userOptional.isEmpty) {
             val password = generateRandomPassword()
@@ -81,7 +81,7 @@ class EndUserServiceImpl(
             oldUser.courses.add(course)
             endUserRepository.save(oldUser)
         }
-        return 1;
+        return 1
     }
 
     override fun findAllUsers(): List<EndUserAdminViewDTO> {

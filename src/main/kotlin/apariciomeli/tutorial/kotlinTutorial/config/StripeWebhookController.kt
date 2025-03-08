@@ -1,14 +1,11 @@
 package apariciomeli.tutorial.kotlinTutorial.config
 
-import apariciomeli.tutorial.kotlinTutorial.controller.EndUserController
-import apariciomeli.tutorial.kotlinTutorial.service.course.EndUserService
 import apariciomeli.tutorial.kotlinTutorial.service.course.EndUserServiceImpl
 import com.stripe.model.checkout.Session
 import com.stripe.net.Webhook
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.util.HashMap
 
 @RestController
 @RequestMapping("/webhook")
