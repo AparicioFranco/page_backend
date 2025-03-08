@@ -49,34 +49,22 @@ class StripeWebhookController(
     @PostMapping("/checkout")
     fun handleStripeWebhook(@RequestBody payload: String, @RequestHeader("Stripe-Signature") sigHeader: String?): ResponseEntity<String> {
         val endpointSecret = System.getenv("WEBHOOK_ENDPOINT_SECRET")
-        println("Endpoint entered")
-        println(payload)
         return try {
-            println("Try entered")
             val event = Webhook.constructEvent(payload, sigHeader, endpointSecret)
-            println(event)
-
 
             if (event.type == "checkout.session.completed") {
-                println("Event entered")
 
                 val session = event.dataObjectDeserializer.getObject().orElse(null) as Session
                 val sessionPaymentLinkId = session.paymentLink // This contains the Payment Link ID
                 val email = session.customerDetails.email ?: return ResponseEntity.badRequest().body("No email found")
 
-                println("email: $email")
-                println("PaymentId: $sessionPaymentLinkId")
-
-
                 if (paymentLinkCourseMap.containsKey(sessionPaymentLinkId)) {
-                    println("User is being created.")
                     endUserServiceImpl.createUserAndAddToCourse(email, paymentLinkCourseMap.getOrDefault(sessionPaymentLinkId, -1))
                     return ResponseEntity.ok("User created for specific payment link")
                 } else {
                     return ResponseEntity.ok("Ignored payment link: $sessionPaymentLinkId")
                 }
             } else {
-                println("Event Ignored")
                 ResponseEntity.ok("Event ignored")
             }
         } catch (e: Exception) {
