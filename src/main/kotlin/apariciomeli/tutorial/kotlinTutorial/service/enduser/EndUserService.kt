@@ -1,18 +1,17 @@
 package apariciomeli.tutorial.kotlinTutorial.service.course
 
-import apariciomeli.tutorial.kotlinTutorial.controller.auth.AuthenticationResponse
 import apariciomeli.tutorial.kotlinTutorial.dto.comment.EndUserAdminViewDTO
 import apariciomeli.tutorial.kotlinTutorial.dto.user.*
 import apariciomeli.tutorial.kotlinTutorial.model.Course
-import apariciomeli.tutorial.kotlinTutorial.model.EndUser
 import apariciomeli.tutorial.kotlinTutorial.model.Module
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
 interface EndUserService {
   fun createUser(endUserDTO: EndUserDTO): ReturnEndUserDTO
 
   fun createUserFromList(listOfUsers: List<String>): Int
+
+  fun createUserAndAddToCourse(email: String, courseId: Int): Int
 
   fun findAllUsers(): List<EndUserAdminViewDTO>
 
