@@ -48,7 +48,7 @@ class StripeWebhookController(
 
     @PostMapping
     fun handleStripeWebhook(@RequestBody payload: String, @RequestHeader("Stripe-Signature") sigHeader: String?): ResponseEntity<String> {
-        val endpointSecret = System.getenv("WEBHOOK_ENDPOINT_SECRET");
+        val endpointSecret = System.getenv("WEBHOOK_ENDPOINT_SECRET")
 
         return try {
             val event = Webhook.constructEvent(payload, sigHeader, endpointSecret)
