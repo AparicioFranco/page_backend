@@ -46,15 +46,16 @@ class StripeWebhookController(
 //        }
 //    }
 
-    @PostMapping
+    @PostMapping("/checkout")
     fun handleStripeWebhook(@RequestBody payload: String, @RequestHeader("Stripe-Signature") sigHeader: String?): ResponseEntity<String> {
         val endpointSecret = System.getenv("WEBHOOK_ENDPOINT_SECRET")
-
+        println("Endpoint entered")
         return try {
             val event = Webhook.constructEvent(payload, sigHeader, endpointSecret)
 
 
             if (event.type == "checkout.session.completed") {
+                println("Event entered")
                 val session = event.dataObjectDeserializer.getObject().orElse(null) as Session
                 val sessionPaymentLinkId = session.paymentLink // This contains the Payment Link ID
                 val email = session.customerEmail ?: return ResponseEntity.badRequest().body("No email found")
@@ -67,6 +68,7 @@ class StripeWebhookController(
                     return ResponseEntity.ok("Ignored payment link: $sessionPaymentLinkId")
                 }
             } else {
+                println("Event Ignored")
                 ResponseEntity.ok("Event ignored")
             }
         } catch (e: Exception) {

@@ -31,7 +31,7 @@ class SecurityConfiguration(
             .authorizeHttpRequests { authorizeHttpRequests ->
                 authorizeHttpRequests
                     .requestMatchers("/api/auth/public/**").permitAll()
-                    .requestMatchers("/webhook").permitAll()
+                    .requestMatchers("/webhook/**").permitAll()
                     .requestMatchers("/api/auth/private/**").hasAuthority(Role.ADMIN.name)
                     .requestMatchers("/api/comment/public/**").hasAnyAuthority(Role.USER.name, Role.ADMIN.name)
                     .requestMatchers("/api/comment/private/**").hasAuthority(Role.ADMIN.name)
