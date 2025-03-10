@@ -1,6 +1,8 @@
 package apariciomeli.tutorial.kotlinTutorial.model
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
+import software.amazon.awssdk.annotations.Mutable
 
 @Entity
 data class ModuleData (
@@ -18,6 +20,9 @@ data class ModuleData (
     var linkText: String? = null,
     val file: String? = null,
     val fileText: String? = null,
+    @ManyToMany(mappedBy = "modulesData")
+    @JsonBackReference
+    val modules: MutableSet<Module> = mutableSetOf(),
 ){
 
 }

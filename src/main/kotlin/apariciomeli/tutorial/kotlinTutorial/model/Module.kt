@@ -1,6 +1,7 @@
 package apariciomeli.tutorial.kotlinTutorial.model
 
 import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
 import org.springframework.lang.Nullable
 
@@ -17,7 +18,18 @@ data class Module (
     val group: SetGroup,
     @ManyToMany(mappedBy = "modules")
     @JsonBackReference
-    val users: MutableList<EndUser> = mutableListOf()
+    val users: MutableList<EndUser> = mutableListOf(),
+    @ManyToMany(mappedBy = "modules")
+    @JsonBackReference
+    val setGroup: MutableSet<SetGroup> = mutableSetOf(),
+    @ManyToMany
+    @JoinTable(
+        name = "module_module_data",
+        joinColumns = [JoinColumn(name="module_id")],
+        inverseJoinColumns = [JoinColumn(name="module_data_id")]
+    )
+    @JsonManagedReference
+    val modulesData: MutableList<ModuleData> = mutableListOf(),
 ){
 
 }
