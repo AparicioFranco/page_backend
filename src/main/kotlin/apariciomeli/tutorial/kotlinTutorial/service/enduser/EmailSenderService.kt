@@ -11,42 +11,49 @@ class EmailSenderService(
     fun sendRecoverEmail(password: String, userEmail:String){
         val template = SimpleMailMessage()
         template.subject = "Nueva contraseña"
-        template.setText("""
-            
-            Tu nueva contraseña para la operación es: $password
-            
-            
-            Puedes entrar en: https://listadelimperio.com/
-            
-        """.trimIndent()
-        )
+        template.text = """
+                
+                Tu nueva contraseña es: $password
+                
+                
+                Aquí entras otra vez: https://listadelimperio.com/
+                
+            """.trimIndent()
         template.setTo(userEmail)
 
         mailSender.send(template)
 
-        println("Mail sent")
     }
 
     fun sendCreationEmail(password: String, userEmail:String){
         val template = SimpleMailMessage()
-        template.subject = "Credenciales para la operación"
-        template.setText("""
-            
-            Bienvenido a la Lista del Imperio!
-            
-            Tu email para la operación es: $userEmail
-            
-            Tu contraseña para la operación es: $password
-            
-            
-            Puedes entrar en: https://listadelimperio.com/
-            
-        """.trimIndent()
-        )
+        template.subject = "INSTRUCCIONES DE ACCESO"
+        template.text = """
+                
+                Amigo imperial, muy bienvenido. 
+                
+                
+                Presta atención que aquí te doy las instrucciones de acceso. 
+                
+                
+                La puerta de acceso la abres entrando aquí: https://listadelimperio.com/
+                
+                
+                Tu email para acceder es: $userEmail
+                
+                Tu contraseña para acceder es: $password
+                
+                
+                
+                Estoy feliz de acompañarte más cerca.
+                
+                Abrazo largo. 
+                           
+                
+            """.trimIndent()
         template.setTo(userEmail)
 
         mailSender.send(template)
 
-        println("Mail sent")
     }
 }

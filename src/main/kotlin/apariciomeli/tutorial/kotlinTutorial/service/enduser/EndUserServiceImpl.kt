@@ -230,6 +230,7 @@ class EndUserServiceImpl(
   override fun resetUserPassword(userEmail: UserEmailDTO): ReturnEndUserDTO {
     val email = userEmail.userEmail
     val userOptional = endUserRepository.findEndUserByEmailIgnoreCase(email)
+      println(email)
     if (userOptional.isPresent) {
       val user = userOptional.get()
       val newPassword = generateRandomPassword()
