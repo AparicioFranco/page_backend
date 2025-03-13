@@ -13,10 +13,10 @@ class EmailSenderService(
         template.subject = "Nueva contraseña"
         template.text = """
                 
-                Tu nueva contraseña para la operación es: $password
+                Tu nueva contraseña es: $password
                 
                 
-                Puedes entrar en: https://listadelimperio.com/
+                Aquí entras otra vez: https://listadelimperio.com/
                 
             """.trimIndent()
         template.setTo(userEmail)
