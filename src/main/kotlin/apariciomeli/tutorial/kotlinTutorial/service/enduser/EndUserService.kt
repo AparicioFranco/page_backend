@@ -13,7 +13,7 @@ interface EndUserService {
 
   fun createUserAndAddToCourse(email: String, courseId: Int): Int
 
-  fun findAllUsers(): List<EndUserAdminViewDTO>
+  fun findAllUsers(): List<CourseAndUsersDTO>
 
   fun getUsersByCourseId(courseId: Int): List<EndUserAdminViewDTO>
 
