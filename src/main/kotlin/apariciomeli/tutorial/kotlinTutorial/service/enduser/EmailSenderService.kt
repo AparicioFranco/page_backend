@@ -56,4 +56,32 @@ class EmailSenderService(
         mailSender.send(template)
 
     }
+
+    fun sendPurchasedAudiobook(userEmail:String){
+        val template = SimpleMailMessage()
+        template.subject = "Acceso Audiolibro"
+        template.text = """
+                
+                Bienvenido otra vez por aquí, amigo imperial. 
+
+
+                Para acceder al audiolibro solo debes entrar aquí: 
+                
+                https://www.listadelimperio.com/
+                
+                Ingresas con el mismo email y contraseña que usaste para otras Operaciones. 
+                
+                
+                Abrazo lago. 
+                
+                
+                PD. Feliz de volver a encontrarnos. 
+                           
+                
+            """.trimIndent()
+        template.setTo(userEmail)
+
+        mailSender.send(template)
+
+    }
 }
